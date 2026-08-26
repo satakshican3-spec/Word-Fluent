@@ -42,6 +42,9 @@ def initialize_session_state():
 
     defaults = {
         "guest_mode": True,
+        "authenticated": False,
+        "user_id": None,
+        "user_email": None,
         "display_name": "Guest Learner",
         "ui_language": "English",
         "active_language": DEFAULT_LANGUAGE,
