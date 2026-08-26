@@ -1,6 +1,7 @@
 import streamlit as st
 
 from components.home import render_home
+from components.lessons import render_lessons
 from components.progress import render_progress
 from components.pronunciation import render_pronunciation
 from components.sentence_builder import render_sentence_builder
@@ -25,6 +26,8 @@ if current_view == "Sentence Builder":
     render_sentence_builder()
 elif current_view == "Pronunciation":
     render_pronunciation()
+elif current_view == "Lessons":
+    render_lessons()
 elif current_view == "Progress":
     render_progress()
 else:
