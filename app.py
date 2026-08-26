@@ -1,32 +1,23 @@
 import streamlit as st
 
+from components.home import render_home
+from components.sentence_builder import render_sentence_builder
+from core.config import APP_NAME, PAGE_ICON
+from core.state import initialize_session_state
+from core.styles import apply_global_styles
+
+
 st.set_page_config(
-    page_title="WordFluent",
-    page_icon="🎙️",
+    page_title=APP_NAME,
+    page_icon=PAGE_ICON,
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 
-st.title("📖🎙️ WordFluent")
-st.subheader("Play. Practise. Pronounce.")
+initialize_session_state()
+apply_global_styles(st.session_state.dark_mode)
 
-st.write(
-    "Learn languages through fun games and pronunciation practice."
-)
-
-language = st.selectbox(
-    "Which language would you like to learn?",
-    [
-        "English",
-        "French",
-        "Spanish",
-        "Hindi",
-        "Bengali",
-        "Korean",
-        "Japanese",
-    ],
-)
-
-if st.button("Start learning"):
-    st.success(
-        f"Great choice! Your {language} learning journey starts here."
-    )
+if st.session_state.current_view == "Sentence Builder":
+    render_sentence_builder()
+else:
+    render_home()
