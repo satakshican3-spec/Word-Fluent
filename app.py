@@ -1,6 +1,7 @@
 import streamlit as st
 
 from components.home import render_home
+from components.progress import render_progress
 from components.pronunciation import render_pronunciation
 from components.sentence_builder import render_sentence_builder
 from core.config import APP_NAME, PAGE_ICON
@@ -24,5 +25,7 @@ if current_view == "Sentence Builder":
     render_sentence_builder()
 elif current_view == "Pronunciation":
     render_pronunciation()
+elif current_view == "Progress":
+    render_progress()
 else:
     render_home()
