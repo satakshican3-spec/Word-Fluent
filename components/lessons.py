@@ -1,330 +1,758 @@
 import random
+import re
+import unicodedata
 
 import streamlit as st
 
-from services.game_engine import get_exercises
+from language_packs.english import get_english_course
 
 
-LESSON_SECTIONS = [
-    "1 · Learn",
-    "2 · Break it down",
-    "3 · Quick check",
-]
-
-
-def create_quiz_options(exercise):
-    words = exercise["words"]
-
-    reversed_sentence = " ".join(
-        reversed(words)
+def _normalize(value):
+    text = unicodedata.normalize("NFKC", str(value))
+    text = text.casefold().strip().replace("’", "'")
+    text = re.sub(
+        r"[^\w\s']",
+        "",
+        text,
+        flags=re.UNICODE,
     )
+    return " ".join(text.split())
 
-    rotated_sentence = " ".join(
-        words[1:] + words[:1]
-    )
 
-    possible_options = [
+def _accepted_answers(exercise):
+    return [
         exercise["answer"],
-        reversed_sentence,
-        rotated_sentence,
+        *exercise.get("accepted_answers", []),
     ]
 
-    unique_options = []
 
-    for option in possible_options:
-        if option not in unique_options:
-            unique_options.append(option)
+def _is_correct(candidate, exercise):
+    normalized_candidate = _normalize(candidate)
 
-    random_generator = random.Random(
-        exercise["answer"]
+    return any(
+        normalized_candidate == _normalize(answer)
+        for answer in _accepted_answers(exercise)
     )
 
-    random_generator.shuffle(unique_options)
 
-    return unique_options
+def _all_lessons(course):
+    lessons = []
+
+    for unit_index, unit in enumerate(course["units"]):
+        for lesson_index, lesson in enumerate(
+            unit["lessons"]
+        ):
+            lessons.append(
+                {
+                    "unit_index": unit_index,
+                    "lesson_index": lesson_index,
+                    "unit": unit,
+                    "lesson": lesson,
+                }
+            )
+
+    return lessons
 
 
-def start_lesson(
-    language,
-    lesson_number=0,
+def _find_lesson(course, lesson_id):
+    for item in _all_lessons(course):
+        if item["lesson"]["id"] == lesson_id:
+            return item["lesson"]
+
+    return None
+
+
+def _course_progress(language):
+    if "course_progress" not in st.session_state:
+        st.session_state.course_progress = {}
+
+    if language not in st.session_state.course_progress:
+        st.session_state.course_progress[language] = {
+            "completed_lessons": [],
+            "lesson_scores": {},
+        }
+
+    return st.session_state.course_progress[language]
+
+
+def _lesson_is_unlocked(
+    flat_lessons,
+    position,
+    completed_ids,
 ):
-    exercises = get_exercises(language)
+    if position == 0:
+        return True
 
-    exercise_index = (
-        lesson_number % len(exercises)
-    )
+    previous_id = flat_lessons[
+        position - 1
+    ]["lesson"]["id"]
 
-    exercise = exercises[exercise_index]
+    return previous_id in completed_ids
 
-    st.session_state.lesson_game = {
-        "language": language,
-        "lesson_number": lesson_number,
-        "exercise_index": exercise_index,
-        "quiz_options": create_quiz_options(
-            exercise
-        ),
-        "feedback": None,
-        "completed": False,
-        "reward": 0,
+
+def _start_lesson(course, lesson_id):
+    lesson = _find_lesson(course, lesson_id)
+
+    if lesson is None:
+        return
+
+    st.session_state.course_lesson_run = {
+        "language": course["language"],
+        "lesson_id": lesson_id,
+        "stage": "vocabulary",
+        "exercise_index": 0,
+        "correct_answers": 0,
+        "attempted_answers": 0,
+        "answered": False,
+        "was_correct": False,
         "rewarded": False,
     }
 
 
-def calculate_lesson_reward(difficulty):
-    rewards = {
-        "Relaxed": 8,
-        "Balanced": 12,
-        "Challenging": 16,
-        "Custom": 20,
-    }
-
-    return rewards.get(difficulty, 12)
+def _return_to_path():
+    st.session_state.pop(
+        "course_lesson_run",
+        None,
+    )
+    st.rerun()
 
 
-def render_lessons():
+def _render_header(course, progress):
     back_column, title_column = st.columns([1, 5])
 
     with back_column:
-        if st.button("← Home"):
+        if st.button(
+            "← Home",
+            key="course_home",
+        ):
             st.session_state.current_view = "Home"
+            st.session_state.pop(
+                "course_lesson_run",
+                None,
+            )
             st.rerun()
 
     with title_column:
-        st.title("📚 Lessons")
+        st.title("📚 English Learning Path")
 
-    language = st.session_state.active_language
+    flat_lessons = _all_lessons(course)
+    completed_count = len(
+        progress["completed_lessons"]
+    )
+    total_lessons = len(flat_lessons)
 
-    if (
-        "lesson_game" not in st.session_state
-        or st.session_state.lesson_game[
-            "language"
-        ] != language
-    ):
-        start_lesson(language)
+    st.write(course["description"])
 
-    game = st.session_state.lesson_game
-    exercises = get_exercises(language)
-
-    exercise = exercises[
-        game["exercise_index"]
-    ]
-
-    progress = st.session_state.language_progress[
-        language
-    ]
-
-    level = progress["current_level"] or "Beginner"
-
-    information_one, information_two, information_three = (
+    metric_one, metric_two, metric_three = (
         st.columns(3)
     )
 
-    with information_one:
-        st.metric(
-            "Language",
-            language,
-        )
-
-    with information_two:
+    with metric_one:
         st.metric(
             "Level",
-            level,
+            course["level"],
         )
 
-    with information_three:
+    with metric_two:
+        st.metric(
+            "Lessons completed",
+            f"{completed_count}/{total_lessons}",
+        )
+
+    with metric_three:
         st.metric(
             "Coins",
             st.session_state.coins,
         )
 
-    st.caption(
-        f'Lesson {game["exercise_index"] + 1} '
-        f'of {len(exercises)}'
+    completion = completed_count / max(
+        total_lessons,
+        1,
+    )
+    st.progress(completion)
+
+    if completed_count == total_lessons:
+        st.success(
+            "You completed the English Beginner "
+            "learning path!"
+        )
+
+
+def _render_path(course):
+    progress = _course_progress(
+        course["language"]
     )
 
-    section = st.radio(
-        "Lesson steps",
-        LESSON_SECTIONS,
-        horizontal=True,
-        key=(
-            f'lesson_section_{language}_'
-            f'{game["lesson_number"]}'
-        ),
+    completed_ids = set(
+        progress["completed_lessons"]
     )
 
-    if section == "1 · Learn":
-        st.markdown("### Real-life situation")
+    flat_lessons = _all_lessons(course)
 
-        st.info(exercise["situation"])
+    _render_header(course, progress)
 
-        st.markdown("### Meaning")
+    st.markdown("## Course units")
 
-        st.write(exercise["translation"])
+    flat_position = 0
 
-        st.markdown("### Target sentence")
+    for unit_number, unit in enumerate(
+        course["units"],
+        start=1,
+    ):
+        unit_completed = sum(
+            lesson["id"] in completed_ids
+            for lesson in unit["lessons"]
+        )
 
-        st.success(exercise["answer"])
+        unit_label = (
+            f'{unit["icon"]} Unit {unit_number}: '
+            f'{unit["title"]} '
+            f'({unit_completed}/'
+            f'{len(unit["lessons"])})'
+        )
 
-        if exercise.get("transliteration"):
-            if st.toggle(
-                "Show transliteration",
-                key=(
-                    f'lesson_transliteration_'
-                    f'{language}_'
-                    f'{game["lesson_number"]}'
-                ),
-            ):
-                st.info(
-                    exercise["transliteration"]
+        first_incomplete_unit = any(
+            lesson["id"] not in completed_ids
+            for lesson in unit["lessons"]
+        )
+
+        with st.expander(
+            unit_label,
+            expanded=(
+                unit_number == 1
+                or first_incomplete_unit
+            ),
+        ):
+            st.write(unit["description"])
+
+            for lesson in unit["lessons"]:
+                lesson_id = lesson["id"]
+
+                completed = (
+                    lesson_id in completed_ids
                 )
 
-        st.markdown("### Helpful clue")
+                unlocked = _lesson_is_unlocked(
+                    flat_lessons,
+                    flat_position,
+                    completed_ids,
+                )
 
-        st.write(exercise["clue"])
+                with st.container(border=True):
+                    (
+                        details_column,
+                        button_column,
+                    ) = st.columns([4, 1])
 
-        st.caption(
-            "When you are ready, select "
-            "“2 · Break it down” above."
-        )
+                    with details_column:
+                        if completed:
+                            status = "✅"
+                        elif unlocked:
+                            status = "▶️"
+                        else:
+                            status = "🔒"
 
-    elif section == "2 · Break it down":
-        st.markdown("### Sentence words")
+                        st.markdown(
+                            f'### {status} '
+                            f'{lesson["icon"]} '
+                            f'{lesson["title"]}'
+                        )
 
-        word_columns = st.columns(
-            min(
-                5,
-                len(exercise["words"]),
+                        st.write(
+                            lesson["objective"]
+                        )
+
+                        st.caption(
+                            f'{lesson["estimated_minutes"]} '
+                            f'min · '
+                            f'{lesson["xp_reward"]} XP · '
+                            f'{lesson["coin_reward"]} coins'
+                        )
+
+                    with button_column:
+                        if completed:
+                            button_label = "Review"
+                        else:
+                            button_label = "Start"
+
+                        if st.button(
+                            button_label,
+                            key=(
+                                f"start_course_"
+                                f"{lesson_id}"
+                            ),
+                            type=(
+                                "primary"
+                                if unlocked
+                                and not completed
+                                else "secondary"
+                            ),
+                            disabled=not unlocked,
+                        ):
+                            _start_lesson(
+                                course,
+                                lesson_id,
+                            )
+                            st.rerun()
+
+                flat_position += 1
+
+
+def _lesson_title(lesson):
+    if st.button(
+        "← Learning path",
+        key="back_to_course_path",
+    ):
+        _return_to_path()
+
+    st.title(
+        f'{lesson["icon"]} '
+        f'{lesson["title"]}'
+    )
+
+    st.caption(lesson["objective"])
+
+
+def _render_vocabulary(lesson, run):
+    _lesson_title(lesson)
+
+    st.markdown("## 1. Learn the words")
+
+    st.write(
+        "Read each word and its example "
+        "before continuing."
+    )
+
+    for item in lesson["vocabulary"]:
+        with st.container(border=True):
+            st.markdown(
+                f'### {item["term"]}'
             )
+
+            st.write(item["meaning"])
+
+            st.caption(
+                f'Example: {item["example"]}'
+            )
+
+    if st.button(
+        "Continue to grammar →",
+        type="primary",
+        key=f'vocabulary_done_{lesson["id"]}',
+    ):
+        run["stage"] = "grammar"
+        st.rerun()
+
+
+def _render_grammar(lesson, run):
+    _lesson_title(lesson)
+
+    st.markdown(
+        "## 2. Understand the pattern"
+    )
+
+    with st.container(border=True):
+        st.markdown(
+            f'### '
+            f'{lesson["grammar"]["title"]}'
         )
-
-        for index, word in enumerate(
-            exercise["words"]
-        ):
-            column = word_columns[
-                index % len(word_columns)
-            ]
-
-            with column:
-                st.info(word)
-
-        st.markdown("### How it works")
-
-        st.write(exercise["explanation"])
-
-        st.markdown("### Full sentence")
-
-        st.success(exercise["answer"])
-
-        st.caption(
-            "Read the sentence aloud, then select "
-            "“3 · Quick check” above."
-        )
-
-    else:
-        st.markdown("### Choose the correct sentence")
 
         st.write(
-            f'Which sentence correctly means: '
-            f'**{exercise["translation"]}**'
+            lesson["grammar"]["summary"]
         )
 
-        selected_answer = st.radio(
-            "Your answer",
-            game["quiz_options"],
+    st.info(
+        "You will now answer three short "
+        "questions. You need at least two "
+        "correct answers to pass."
+    )
+
+    if st.button(
+        "Start practice →",
+        type="primary",
+        key=f'grammar_done_{lesson["id"]}',
+    ):
+        run["stage"] = "exercise"
+        st.rerun()
+
+
+def _exercise_input(
+    exercise,
+    lesson_id,
+    exercise_index,
+):
+    widget_key = (
+        f"course_answer_"
+        f"{lesson_id}_"
+        f"{exercise_index}"
+    )
+
+    exercise_type = exercise["type"]
+
+    if exercise_type == "multiple_choice":
+        return st.radio(
+            "Choose one answer",
+            exercise["options"],
             index=None,
-            disabled=game["completed"],
-            key=(
-                f'lesson_quiz_{language}_'
-                f'{game["lesson_number"]}'
-            ),
+            key=widget_key,
         )
 
+    if (
+        exercise_type == "fill_blank"
+        and exercise["options"]
+    ):
+        return st.radio(
+            "Choose the missing word",
+            exercise["options"],
+            index=None,
+            key=widget_key,
+        )
+
+    if exercise_type == "word_order":
+        words = list(exercise["words"])
+
+        random.Random(
+            f"{lesson_id}_{exercise_index}"
+        ).shuffle(words)
+
+        st.write(
+            "Arrange these words by typing "
+            "the sentence:"
+        )
+
+        st.info("   ·   ".join(words))
+
+        return st.text_input(
+            "Your sentence",
+            key=widget_key,
+        )
+
+    return st.text_input(
+        "Type your answer",
+        key=widget_key,
+    )
+
+
+def _render_exercise(lesson, run):
+    _lesson_title(lesson)
+
+    exercises = lesson["exercises"]
+    exercise_index = run["exercise_index"]
+    exercise = exercises[exercise_index]
+
+    st.markdown(
+        f"## 3. Practice "
+        f"({exercise_index + 1}/"
+        f"{len(exercises)})"
+    )
+
+    st.progress(
+        exercise_index / len(exercises)
+    )
+
+    st.markdown(
+        f'### {exercise["prompt"]}'
+    )
+
+    candidate = _exercise_input(
+        exercise,
+        lesson["id"],
+        exercise_index,
+    )
+
+    answer_ready = (
+        candidate is not None
+        and str(candidate).strip()
+    )
+
+    if not run["answered"]:
         if st.button(
-            "Check lesson answer",
+            "Check answer",
             type="primary",
-            disabled=(
-                selected_answer is None
-                or game["completed"]
+            disabled=not answer_ready,
+            key=(
+                f'check_{lesson["id"]}_'
+                f'{exercise_index}'
             ),
         ):
-            if selected_answer == exercise["answer"]:
-                game["feedback"] = "correct"
-                game["completed"] = True
+            was_correct = _is_correct(
+                candidate,
+                exercise,
+            )
 
-                if not game["rewarded"]:
-                    reward = calculate_lesson_reward(
-                        st.session_state.difficulty
-                    )
+            run["answered"] = True
+            run["was_correct"] = was_correct
+            run["attempted_answers"] += 1
 
-                    game["reward"] = reward
-                    game["rewarded"] = True
-
-                    st.session_state.coins += reward
-                    progress["overall_xp"] += reward
-                    progress["weekly_minutes"] += 2
-
-                    progress["skill_levels"][
-                        "Vocabulary"
-                    ] += 1
-
-                    progress["skill_levels"][
-                        "Grammar"
-                    ] += 1
-
-            else:
-                game["feedback"] = "incorrect"
+            if was_correct:
+                run["correct_answers"] += 1
 
             st.rerun()
 
-        if game["feedback"] == "incorrect":
+    if run["answered"]:
+        if run["was_correct"]:
+            st.success(
+                "Correct! Great work."
+            )
+        else:
             st.error(
-                "Not quite. Look carefully at the "
-                "word order and try again."
-            )
-
-            st.info(
-                f'Lesson help: '
-                f'{exercise["explanation"]}'
-            )
-
-        if game["feedback"] == "correct":
-            st.success(
-                "Correct! You completed this lesson."
-            )
-
-            st.success(
-                f'You earned {game["reward"]} coins.'
-            )
-
-            st.markdown(
-                f'**Correct sentence:** '
+                "Not quite. The correct "
+                f'answer is: '
                 f'{exercise["answer"]}'
             )
 
-            action_one, action_two = st.columns(2)
+        st.info(
+            f'Why: {exercise["explanation"]}'
+        )
 
-            with action_one:
-                if st.button(
-                    "🧩 Practise in Sentence Builder"
-                ):
-                    st.session_state.current_view = (
-                        "Sentence Builder"
-                    )
-                    st.rerun()
+        final_exercise = (
+            exercise_index
+            == len(exercises) - 1
+        )
 
-            with action_two:
-                if len(exercises) > 1:
-                    if st.button(
-                        "Next lesson →",
-                        type="primary",
-                    ):
-                        start_lesson(
-                            language,
-                            game["lesson_number"] + 1,
-                        )
-                        st.rerun()
-                else:
-                    st.info(
-                        "You completed the available "
-                        "starter lesson for this language."
-                    )
+        if final_exercise:
+            next_label = "See results →"
+        else:
+            next_label = "Next question →"
+
+        if st.button(
+            next_label,
+            type="primary",
+            key=(
+                f'next_{lesson["id"]}_'
+                f'{exercise_index}'
+            ),
+        ):
+            if final_exercise:
+                run["stage"] = "complete"
+            else:
+                run["exercise_index"] += 1
+                run["answered"] = False
+                run["was_correct"] = False
+
+            st.rerun()
+
+
+def _award_lesson(course, lesson, run):
+    progress = _course_progress(
+        course["language"]
+    )
+
+    lesson_id = lesson["id"]
+
+    if lesson_id in progress[
+        "completed_lessons"
+    ]:
+        run["rewarded"] = True
+        return False
+
+    progress["completed_lessons"].append(
+        lesson_id
+    )
+
+    progress["lesson_scores"][lesson_id] = {
+        "correct": run["correct_answers"],
+        "total": len(lesson["exercises"]),
+    }
+
+    st.session_state.coins += (
+        lesson["coin_reward"]
+    )
+
+    language_progress = (
+        st.session_state.language_progress[
+            course["language"]
+        ]
+    )
+
+    language_progress["overall_xp"] += (
+        lesson["xp_reward"]
+    )
+
+    language_progress["weekly_minutes"] += (
+        lesson["estimated_minutes"]
+    )
+
+    skill_levels = language_progress.get(
+        "skill_levels",
+        {},
+    )
+
+    if "Vocabulary" in skill_levels:
+        skill_levels["Vocabulary"] += 1
+
+    if "Grammar" in skill_levels:
+        skill_levels["Grammar"] += 1
+
+    run["rewarded"] = True
+
+    return True
+
+
+def _render_complete(course, lesson, run):
+    _lesson_title(lesson)
+
+    total = len(lesson["exercises"])
+    correct = run["correct_answers"]
+
+    passing_score = max(
+        1,
+        (total * 2 + 2) // 3,
+    )
+
+    passed = correct >= passing_score
+
+    if passed:
+        newly_completed = False
+
+        if not run["rewarded"]:
+            newly_completed = _award_lesson(
+                course,
+                lesson,
+                run,
+            )
+
+        st.success(
+            f"Lesson complete! You answered "
+            f"{correct} of {total} questions "
+            f"correctly."
+        )
+
+        if newly_completed:
+            st.balloons()
+
+            st.info(
+                f'You earned '
+                f'{lesson["xp_reward"]} XP and '
+                f'{lesson["coin_reward"]} coins. '
+                f'The next lesson is now unlocked.'
+            )
+        else:
+            st.info(
+                "You reviewed this lesson "
+                "successfully. Rewards are given "
+                "once per lesson."
+            )
+
+        if st.button(
+            "Return to learning path",
+            type="primary",
+            key=(
+                f'complete_path_'
+                f'{lesson["id"]}'
+            ),
+        ):
+            _return_to_path()
+
+    else:
+        st.error(
+            f"You answered {correct} of "
+            f"{total} correctly. You need "
+            f"{passing_score} correct answers "
+            f"to pass."
+        )
+
+        st.write(
+            "Review the vocabulary and grammar, "
+            "then try again."
+        )
+
+        retry_column, path_column = (
+            st.columns(2)
+        )
+
+        with retry_column:
+            if st.button(
+                "Try lesson again",
+                type="primary",
+                key=f'retry_{lesson["id"]}',
+            ):
+                _start_lesson(
+                    course,
+                    lesson["id"],
+                )
+                st.rerun()
+
+        with path_column:
+            if st.button(
+                "Return to learning path",
+                key=(
+                    f'failed_path_'
+                    f'{lesson["id"]}'
+                ),
+            ):
+                _return_to_path()
+
+
+def _render_active_lesson(course, run):
+    lesson = _find_lesson(
+        course,
+        run["lesson_id"],
+    )
+
+    if lesson is None:
+        _return_to_path()
+        return
+
+    if run["stage"] == "vocabulary":
+        _render_vocabulary(lesson, run)
+
+    elif run["stage"] == "grammar":
+        _render_grammar(lesson, run)
+
+    elif run["stage"] == "exercise":
+        _render_exercise(lesson, run)
+
+    else:
+        _render_complete(
+            course,
+            lesson,
+            run,
+        )
+
+
+def render_lessons():
+    language = st.session_state.active_language
+
+    if language != "English":
+        if st.button(
+            "← Home",
+            key="unsupported_course_home",
+        ):
+            st.session_state.current_view = "Home"
+            st.rerun()
+
+        st.title("📚 Learning Path")
+
+        st.info(
+            "The full interactive course is "
+            "currently available for English. "
+            "The Bengali course is being added "
+            "next."
+        )
+        return
+
+    course = get_english_course()
+
+    run = st.session_state.get(
+        "course_lesson_run"
+    )
+
+    if (
+        run
+        and run.get("language")
+        == course["language"]
+    ):
+        _render_active_lesson(
+            course,
+            run,
+        )
+
+    else:
+        if run:
+            st.session_state.pop(
+                "course_lesson_run",
+                None,
+            )
+
+        _render_path(course)
