@@ -6,6 +6,8 @@ import streamlit as st
 
 from language_packs.english import get_english_course
 
+from language_packs.bengali import get_bengali_course
+
 
 def _normalize(value):
     text = unicodedata.normalize("NFKC", str(value))
@@ -714,7 +716,7 @@ def _render_active_lesson(course, run):
 def render_lessons():
     language = st.session_state.active_language
 
-    if language != "English":
+    if language not in ("English", "Bengali"):
         if st.button(
             "← Home",
             key="unsupported_course_home",
@@ -732,11 +734,14 @@ def render_lessons():
         )
         return
 
-    course = get_english_course()
+    if language == "Bengali":
+        course = get_bengali_course()
+    else:
+        course = get_english_course()
 
     run = st.session_state.get(
-        "course_lesson_run"
-    )
+        "course_lesson_run")
+    
 
     if (
         run
