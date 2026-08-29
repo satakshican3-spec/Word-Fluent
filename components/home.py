@@ -8,7 +8,13 @@ from core.config import (
     SKILL_COLORS,
     TAGLINE,
 )
-
+from locales import (
+    get_interface_language,
+    language_codes,
+    language_label as interface_language_label,
+    set_interface_language,
+    t,
+)
 
 def language_label(language_name):
     language = LANGUAGES[language_name]
@@ -18,7 +24,9 @@ def language_label(language_name):
         f"({language['native_name']})"
     )
 
-
+def translated_level_label(level):
+    translation_key = f"level_{level.lower().replace(' ', '_')}"
+    return t(translation_key)
 def stat_card(label, value):
     st.markdown(
         f"""
@@ -53,23 +61,32 @@ def render_home():
 
     with setting_one:
         st.selectbox(
-            "Learning language",
+            t("learning_language"),
             language_names,
             key="active_language",
             format_func=language_label,
         )
 
     with setting_two:
-        st.selectbox(
-            "Menu language",
-            language_names,
-            key="ui_language",
-            format_func=language_label,
+        current_interface_language = get_interface_language()
+
+        selected_interface_language = st.selectbox(
+            t("interface_language"),
+            options=language_codes(),
+            index=language_codes().index(
+                current_interface_language
+            ),
+            format_func=interface_language_label,
+            key="home_interface_language",
         )
+
+        if selected_interface_language != current_interface_language:
+            set_interface_language(selected_interface_language)
+            st.rerun()
 
     with setting_three:
         st.toggle(
-            "Dark mode",
+            t("dark_mode"),
             key="dark_mode",
         )
 
@@ -85,9 +102,9 @@ def render_home():
         <div class="wf-hero">
             <div class="wf-logo">📖 🎙️</div>
             <h1>{APP_NAME}</h1>
-            <p>{TAGLINE}</p>
+            <p>{t("tagline")}</p>
             <p>
-                Learning {active_language}
+                {t("learning")} {active_language}
                 · {language_data["native_name"]}
                 · {language_data["code"]}
             </p>
@@ -100,50 +117,52 @@ def render_home():
 
     with stat_one:
         stat_card(
-            "Coins",
+            t("Coins"),
             f"🪙 {st.session_state.coins}",
         )
 
     with stat_two:
         stat_card(
-            "Hearts",
+            t("Hearts"),
             f"❤️ {st.session_state.hearts}/{MAX_HEARTS}",
         )
 
     with stat_three:
         stat_card(
-            f"{active_language} streak",
-            f"🔥 {progress['streak']} days",
+            t("language_streak", learning_language=active_language),
+            t("days", count=f"🔥 {progress['streak']}"), 
         )
 
     with stat_four:
         stat_card(
-            "Weekly goal",
-            (
-                f"{progress['weekly_minutes']}/"
-                f"{progress['weekly_goal']} min"
+            t("weekly_goal"),
+            t(
+                "minutes_short",
+
+            current=progress["weekly_minutes"],
+                goal=progress["weekly_goal"],
             ),
         )
 
+    level_title = t("your_learning_level")
+
     st.markdown(
-        '<div class="wf-section-title">Your learning level</div>',
+        f'<div class="wf-section-title">{level_title}</div>',
         unsafe_allow_html=True,
     )
 
     if progress["starting_level"] is None:
-        st.info(
-            "Choose your starting level. That level and every "
-            "level below it will be unlocked."
-        )
+        st.info(t("choose_starting_level_help"))
 
         chosen_level = st.selectbox(
-            "Starting level",
+            t("starting_level"),
             LEVELS,
+            format_func=translated_level_label,
             key=f"starting_level_choice_{active_language}",
         )
 
         if st.button(
-            "Confirm starting level",
+            t("confirm_starting_level"),
             type="primary",
             key=f"confirm_level_{active_language}",
         ):
@@ -156,8 +175,13 @@ def render_home():
             ]
 
             st.success(
-                f"{chosen_level} and every lower level "
-                f"are now unlocked for {active_language}."
+                t(
+                    "levels_unlocked_success",
+                
+            level=translated_level_label(chosen_level),
+
+            learning_language=active_language,
+                )
             )
 
             st.rerun()
@@ -167,18 +191,18 @@ def render_home():
 
         with level_one:
             stat_card(
-                "Current level",
-                progress["current_level"],
+                t("current_level"),
+                translated_level_label(progress["current_level"]),
             )
 
         with level_two:
             stat_card(
-                "Unlocked levels",
+                t("unlocked_levels"),
                 len(progress["unlocked_levels"]),
             )
 
     st.markdown(
-        '<div class="wf-section-title">Session settings</div>',
+        f'<div class="wf-section-title">{t("session_settings")}</div>',
         unsafe_allow_html=True,
     )
 
@@ -186,15 +210,15 @@ def render_home():
 
     with preference_one:
         st.select_slider(
-            "Session length",
+            t("session_length"),
             options=[5, 10, 15, 20, 30],
             key="session_length",
-            format_func=lambda minutes: f"{minutes} minutes",
+            format_func=lambda minutes: t("minutes", count=minutes),
         )
 
     with preference_two:
         st.selectbox(
-            "Difficulty",
+            t("difficulty"),
             [
                 "Relaxed",
                 "Balanced",

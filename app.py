@@ -11,6 +11,7 @@ from components.sentence_builder import (
 from core.config import APP_NAME, PAGE_ICON
 from core.state import initialize_session_state
 from core.styles import apply_global_styles
+from locales import language_codes, language_label, set_interface_language, t
 
 
 st.set_page_config(
@@ -22,7 +23,76 @@ st.set_page_config(
 
 initialize_session_state()
 apply_global_styles(st.session_state.dark_mode)
+def render_interface_language_setup():
+    if st.session_state.get("interface_language_selected"):
+        return
 
+    selected_language = st.session_state.get(
+        "interface_language_choice",
+        "en",
+    )
+
+    st.title(
+        f"🌍 {t('choose_interface_title', language=selected_language)}"
+    )
+    st.write(
+        t("choose_interface_help", language=selected_language)
+    )
+
+    selected_language = st.selectbox(
+        t("interface_language", language=selected_language),
+        options=language_codes(),
+        format_func=language_label,
+        key="interface_language_choice",
+    )
+
+    if st.button(
+        t("continue", language=selected_language),
+        type="primary",
+        use_container_width=True,
+    ):
+        set_interface_language(selected_language)
+        st.session_state.interface_language_selected = True
+        st.rerun()
+
+    st.stop()
+
+
+def render_interface_language_setup():
+    if st.session_state.get("interface_language_selected"):
+        return
+
+    selected_language = st.session_state.get(
+        "interface_language_choice",
+        "en",
+    )
+
+    st.title(
+        f"🌍 {t('choose_interface_title', language=selected_language)}"
+    )
+    st.write(
+        t("choose_interface_help", language=selected_language)
+    )
+
+    selected_language = st.selectbox(
+        t("interface_language", language=selected_language),
+        options=language_codes(),
+        format_func=language_label,
+        key="interface_language_choice",
+    )
+
+    if st.button(
+        t("continue", language=selected_language),
+        type="primary",
+        use_container_width=True,
+    ):
+        set_interface_language(selected_language)
+        st.session_state.interface_language_selected = True
+        st.rerun()
+
+    st.stop()
+
+render_interface_language_setup()
 
 def render_account_shortcut():
     empty_column, account_column = st.columns(
