@@ -117,13 +117,13 @@ def render_home():
 
     with stat_one:
         stat_card(
-            t("Coins"),
+            t("coins"),
             f"🪙 {st.session_state.coins}",
         )
 
     with stat_two:
         stat_card(
-            t("Hearts"),
+            t("hearts"),
             f"❤️ {st.session_state.hearts}/{MAX_HEARTS}",
         )
 
@@ -225,11 +225,14 @@ def render_home():
                 "Challenging",
                 "Custom",
             ],
+            format_func=lambda difficulty: t(
+                f"difficulty_{difficulty.lower()}"
+            ),
             key="difficulty",
         )
 
     st.markdown(
-        '<div class="wf-section-title">Choose an activity</div>',
+        f'<div class="wf-section-title">{t("choose_activity")}</div>',
         unsafe_allow_html=True,
     )
 
@@ -237,25 +240,25 @@ def render_home():
         (
             "🧩",
             "Sentence Builder",
-            "Arrange or type words to build useful sentences.",
+            t("sentence_builder_description"),
             SKILL_COLORS["Sentence Builder"],
         ),
         (
             "🎙️",
             "Pronunciation",
-            "Speak aloud and receive level-based feedback.",
+            t("pronunciation_description"),
             SKILL_COLORS["Pronunciation"],
         ),
         (
             "📚",
             "Lessons",
-            "Learn vocabulary and grammar at your level.",
+            t("lessons_description"),
             SKILL_COLORS["Grammar"],
         ),
         (
             "🏆",
             "Progress",
-            "View goals, streaks, coins and achievements.",
+            t("progress_description"),
             SKILL_COLORS["Vocabulary"],
         ),
     ]
@@ -265,17 +268,18 @@ def render_home():
 
     for index, activity in enumerate(activities):
         icon, title, description, color = activity
+        display_title = t(title.lower().replace(" ", "_"))
 
         with activity_columns[index]:
             activity_card(
                 icon,
-                title,
+                display_title,
                 description,
                 color,
             )
 
             if st.button(
-                f"Open {title}",
+                t("open_activity", activity=display_title),
                 key=f"open_{title}",
                 type="primary" if index == 0 else "secondary",
                 disabled=level_not_selected,
@@ -285,12 +289,14 @@ def render_home():
 
     if level_not_selected:
         st.caption(
-            "Choose a starting level to unlock the activities."
+            t("choose_level_unlock")
         )
     elif st.session_state.current_view != "Home":
+        selected_title = t(
+            st.session_state.current_view.lower().replace(" ", "_")
+        )
         st.info(
-            f"{st.session_state.current_view} selected. "
-            "We will connect this feature next."
+            t("feature_selected", activity=selected_title)
         )
 
     weekly_goal = progress["weekly_goal"]
@@ -301,13 +307,17 @@ def render_home():
     )
 
     st.markdown(
-        '<div class="wf-section-title">Weekly progress</div>',
+        f'<div class="wf-section-title">{t("weekly_progress")}</div>',
         unsafe_allow_html=True,
     )
 
     st.progress(weekly_percentage)
 
     st.caption(
-        f"{weekly_minutes} of {weekly_goal} minutes completed "
-        f"for {active_language} this week."
+        t(
+            "weekly_progress_caption",
+            current=weekly_minutes,
+            goal=weekly_goal,
+            learning_language=active_language,
+        )
     )
