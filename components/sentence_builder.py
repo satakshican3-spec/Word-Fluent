@@ -1,4 +1,5 @@
 import streamlit as st
+from locales import t
 
 from services.game_engine import (
     calculate_reward,
@@ -54,12 +55,12 @@ def render_sentence_builder():
     back_column, title_column = st.columns([1, 5])
 
     with back_column:
-        if st.button("← Home"):
+        if st.button(f"← {t('home')}"):
             st.session_state.current_view = "Home"
             st.rerun()
 
     with title_column:
-        st.title("🧩 Sentence Builder")
+        st.title(f"🧩 {t('sentence_builder')}")
 
     language = st.session_state.active_language
 
@@ -82,46 +83,46 @@ def render_sentence_builder():
     )
 
     with information_one:
-        st.metric("Language", language)
+        st.metric(t("language"), language)
 
     with information_two:
-        st.metric("Level", level)
+        st.metric(t("level"), level)
 
     with information_three:
         st.metric(
-            "Hearts",
+            t("hearts"),
             f"{st.session_state.hearts}/5",
         )
 
-    st.caption(
-        "Build the correct sentence. Incorrect answers cost "
-        "one heart."
-    )
+    st.caption(t("sentence_builder_instructions"))
 
     prompt_types = st.multiselect(
-        "Choose the prompt types for this round",
-        PROMPT_TYPES,
-        default=[
-            "Situation",
-            "Translation",
-        ],
-        key=f"prompt_types_{language}",
-    )
+    t("choose_prompt_types"),
+    PROMPT_TYPES,
+    default=[
+        "Situation",
+        "Translation",
+    ],
+    format_func=lambda prompt_type: t(
+        f"prompt_type_{prompt_type.lower().replace(' ', '_').replace('-', '_')}"
+    ),
+    key=f"prompt_types_{language}",
+)
 
     if not prompt_types:
-        st.warning(
-            "Select at least one prompt type before answering."
-        )
+        st.warning(t("select_prompt_type_warning"))
 
     if "Situation" in prompt_types:
         st.info(
-            f"Real-life situation: {exercise['situation']}"
-        )
+    t(
+        "real_life_situation",
+        situation=exercise["situation"],
+    )
+)
 
     if "Translation" in prompt_types:
         st.markdown(
-            f"**Meaning:** {exercise['translation']}"
-        )
+            f"**{t('meaning')}:** {exercise['translation']}")
 
     if "Picture" in prompt_types:
         st.markdown(
@@ -130,12 +131,12 @@ def render_sentence_builder():
 
     if "Target-language clue" in prompt_types:
         st.markdown(
-            f"**Clue:** {exercise['clue']}"
-        )
+    f"**{t('clue')}:** {exercise['clue']}"
+)
 
     if exercise.get("transliteration"):
         show_transliteration = st.toggle(
-            "Show transliteration",
+            t("show_transliteration"),
             key=f"show_transliteration_{language}",
         )
 
@@ -145,28 +146,29 @@ def render_sentence_builder():
             )
 
     input_method = st.radio(
-        "How would you like to answer?",
-        [
-            "Word tiles",
-            "Typing",
-        ],
-        horizontal=True,
-        key=f"sentence_method_{language}",
-    )
+    t("answer_method"),
+    [
+        "Word tiles",
+        "Typing",
+    ],
+    format_func=lambda method: t(
+        f"answer_method_{method.lower().replace(' ', '_')}"
+    ),
+    horizontal=True,
+    key=f"sentence_method_{language}",
+)
 
     candidate_answer = ""
 
     if input_method == "Word tiles":
         candidate_answer = answer_from_tiles(game)
 
-        st.markdown("#### Your sentence")
+        st.markdown(f"#### {t('your_sentence')}")
 
         if candidate_answer:
             st.success(candidate_answer)
         else:
-            st.caption(
-                "Select the words below in the correct order."
-            )
+            st.caption(t("select_words_in_order"))
 
         selected_ids = set(game["selected_tile_ids"])
 
@@ -205,7 +207,7 @@ def render_sentence_builder():
 
         with undo_column:
             if st.button(
-                "Undo last word",
+                t("undo_last_word"),
                 disabled=(
                     not game["selected_tile_ids"]
                     or game["answered"]
@@ -216,7 +218,7 @@ def render_sentence_builder():
 
         with clear_column:
             if st.button(
-                "Clear sentence",
+                t("clear_sentence"),
                 disabled=(
                     not game["selected_tile_ids"]
                     or game["answered"]
@@ -227,7 +229,7 @@ def render_sentence_builder():
 
     else:
         candidate_answer = st.text_input(
-            "Type your sentence",
+            t("type_your_sentence"),
             key=(
                 f"typed_answer_{language}_"
                 f"{game['round_number']}"
@@ -238,7 +240,7 @@ def render_sentence_builder():
     hints_left = 3 - len(game["hints"])
 
     if st.button(
-        f"Use a hint ({hints_left} left)",
+        t("use_hint", count=hints_left),
         disabled=(
             hints_left == 0
             or game["answered"]
@@ -254,13 +256,13 @@ def render_sentence_builder():
         )
 
     for hint in game["hints"]:
-        st.warning(f"Hint: {hint}")
+        st.warning(t("hint_message", hint=hint))
 
     no_hearts = st.session_state.hearts <= 0
 
     if no_hearts:
         st.error(
-            "You have no hearts remaining."
+            t("no_hearts_remaining")
         )
 
         can_restore = st.session_state.coins >= 20
@@ -281,7 +283,7 @@ def render_sentence_builder():
     answer_ready = bool(candidate_answer.strip())
 
     if st.button(
-        "Check answer",
+        t("check_answer"),
         type="primary",
         disabled=(
             not answer_ready
@@ -325,41 +327,45 @@ def render_sentence_builder():
             game["feedback"] = "incorrect"
 
     if game["feedback"] == "incorrect":
-        st.error(
-            "Not quite—check the word order and try again."
-        )
+        st.error(t("incorrect_answer"))
 
         st.info(
-            f"Grammar help: {exercise['explanation']}"
-        )
+    t(
+        "grammar_help",
+        explanation=exercise["explanation"],
+    )
+)
 
     if game["feedback"] == "correct":
         st.success(
-            f"Correct! You earned {game['reward']} coins."
-        )
+    t(
+        "correct_reward",
+        reward=game["reward"],
+    )
+)
 
         st.info(
-            f"Why it works: {exercise['explanation']}"
-        )
+    t(
+        "why_it_works",
+        explanation=exercise["explanation"],
+    )
+)
 
         st.markdown(
-            f"**Correct sentence:** {exercise['answer']}"
+            f"**{t('correct_sentence')}:** {exercise['answer']}"
         )
 
         bonus_column, next_column = st.columns(2)
 
         with bonus_column:
             if st.button(
-                "🎙️ Try pronunciation bonus"
+                f"🎙️ {t('pronunciation_bonus')}"
             ):
-                st.info(
-                    "The pronunciation recorder will be "
-                    "connected in the pronunciation stage."
-                )
+                st.info(t("pronunciation_bonus_info"))
 
         with next_column:
             if st.button(
-                "Next challenge →",
+                f"{t('next_challenge')} →",
                 type="primary",
             ):
                 start_round(

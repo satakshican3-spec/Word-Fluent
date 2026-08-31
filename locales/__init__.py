@@ -623,3 +623,406 @@ for language_code, home_strings in HOME_TRANSLATIONS_SESSION.items():
 
 for language_code, activity_strings in HOME_TRANSLATIONS_ACTIVITIES.items():
     TRANSLATIONS.setdefault(language_code, {}).update(activity_strings)
+
+TRANSLATIONS.setdefault("en", {}).update(
+    {
+        "home": "Home",
+        "language": "Language",
+        "level": "Level",
+        "sentence_builder_instructions": (
+            "Build the correct sentence. Incorrect answers cost one heart."
+        ),
+        "choose_prompt_types": "Choose the prompt types for this round",
+        "prompt_type_situation": "Situation",
+        "prompt_type_translation": "Translation",
+        "prompt_type_picture": "Picture",
+        "prompt_type_target_language_clue": "Target-language clue",
+        "select_prompt_type_warning": (
+            "Select at least one prompt type before answering."
+        ),
+        "real_life_situation": "Real-life situation: {situation}",
+        "meaning": "Meaning",
+        "clue": "Clue",
+        "show_transliteration": "Show transliteration",
+        "answer_method": "How would you like to answer?",
+        "answer_method_word_tiles": "Word tiles",
+        "answer_method_typing": "Typing",
+        "your_sentence": "Your sentence",
+        "select_words_in_order": (
+            "Select the words below in the correct order."
+        ),
+        "undo_last_word": "Undo last word",
+        "clear_sentence": "Clear sentence",
+        "type_your_sentence": "Type your sentence",
+        "use_hint": "Use a hint ({count} left)",
+        "hint_message": "Hint: {hint}",
+        "no_hearts_remaining": "You have no hearts remaining.",
+        "restore_heart": "Restore one heart for 20 coins",
+        "restore_heart_requirement": (
+            "You need at least 20 coins to restore a heart."
+        ),
+        "check_answer": "Check answer",
+        "incorrect_answer": (
+            "Not quite—check the word order and try again."
+        ),
+        "grammar_help": "Grammar help: {explanation}",
+        "correct_reward": "Correct! You earned {reward} coins.",
+        "why_it_works": "Why it works: {explanation}",
+        "correct_sentence": "Correct sentence",
+        "pronunciation_bonus": "Try pronunciation bonus",
+        "pronunciation_bonus_info": (
+            "The pronunciation recorder will be connected "
+            "in the pronunciation stage."
+        ),
+        "next_challenge": "Next challenge",
+    }
+)
+
+TRANSLATIONS.setdefault("bn", {}).update(
+    {
+        "home": "হোম",
+        "language": "ভাষা",
+        "level": "স্তর",
+        "sentence_builder_instructions": (
+            "সঠিক বাক্যটি তৈরি করুন। ভুল উত্তর দিলে একটি হার্ট কমবে।"
+        ),
+        "choose_prompt_types": (
+            "এই রাউন্ডের জন্য প্রম্পটের ধরন বেছে নিন"
+        ),
+        "prompt_type_situation": "পরিস্থিতি",
+        "prompt_type_translation": "অনুবাদ",
+        "prompt_type_picture": "ছবি",
+        "prompt_type_target_language_clue": "লক্ষ্য ভাষার সূত্র",
+        "select_prompt_type_warning": (
+            "উত্তর দেওয়ার আগে অন্তত একটি প্রম্পটের ধরন বেছে নিন।"
+        ),
+        "real_life_situation": "বাস্তব জীবনের পরিস্থিতি: {situation}",
+        "meaning": "অর্থ",
+        "clue": "সূত্র",
+        "show_transliteration": "লিপ্যন্তর দেখান",
+        "answer_method": "আপনি কীভাবে উত্তর দিতে চান?",
+        "answer_method_word_tiles": "শব্দ টাইল",
+        "answer_method_typing": "টাইপ করে",
+        "your_sentence": "আপনার বাক্য",
+        "select_words_in_order": (
+            "নিচের শব্দগুলো সঠিক ক্রমে বেছে নিন।"
+        ),
+        "undo_last_word": "শেষ শব্দটি সরান",
+        "clear_sentence": "বাক্যটি মুছে দিন",
+        "type_your_sentence": "আপনার বাক্য টাইপ করুন",
+        "use_hint": "ইঙ্গিত নিন ({count}টি বাকি)",
+        "hint_message": "ইঙ্গিত: {hint}",
+        "no_hearts_remaining": "আপনার আর কোনো হার্ট বাকি নেই।",
+        "restore_heart": "২০ কয়েনে একটি হার্ট ফিরিয়ে আনুন",
+        "restore_heart_requirement": (
+            "একটি হার্ট ফিরিয়ে আনতে অন্তত ২০টি কয়েন লাগবে।"
+        ),
+        "check_answer": "উত্তর যাচাই করুন",
+        "incorrect_answer": (
+            "ঠিক হয়নি—শব্দগুলোর ক্রম দেখে আবার চেষ্টা করুন।"
+        ),
+        "grammar_help": "ব্যাকরণ সহায়তা: {explanation}",
+        "correct_reward": "সঠিক! আপনি {reward}টি কয়েন পেয়েছেন।",
+        "why_it_works": "এটি কেন সঠিক: {explanation}",
+        "correct_sentence": "সঠিক বাক্য",
+        "pronunciation_bonus": "উচ্চারণ বোনাস চেষ্টা করুন",
+        "pronunciation_bonus_info": (
+            "উচ্চারণ রেকর্ডারটি উচ্চারণের ধাপে যুক্ত করা হবে।"
+        ),
+        "next_challenge": "পরবর্তী চ্যালেঞ্জ",
+    }
+)
+
+TRANSLATIONS.setdefault("hi", {}).update(
+    {
+        "home": "होम",
+        "language": "भाषा",
+        "level": "स्तर",
+        "sentence_builder_instructions": (
+            "सही वाक्य बनाएँ। गलत उत्तर देने पर एक हार्ट कम हो जाएगा।"
+        ),
+        "choose_prompt_types": (
+            "इस राउंड के लिए प्रॉम्प्ट के प्रकार चुनें"
+        ),
+        "prompt_type_situation": "स्थिति",
+        "prompt_type_translation": "अनुवाद",
+        "prompt_type_picture": "चित्र",
+        "prompt_type_target_language_clue": "लक्ष्य भाषा का संकेत",
+        "select_prompt_type_warning": (
+            "उत्तर देने से पहले कम से कम एक प्रॉम्प्ट प्रकार चुनें।"
+        ),
+        "real_life_situation": "वास्तविक जीवन की स्थिति: {situation}",
+        "meaning": "अर्थ",
+        "clue": "संकेत",
+        "show_transliteration": "लिप्यंतरण दिखाएँ",
+        "answer_method": "आप किस तरह उत्तर देना चाहेंगे?",
+        "answer_method_word_tiles": "शब्द टाइलें",
+        "answer_method_typing": "टाइप करके",
+        "your_sentence": "आपका वाक्य",
+        "select_words_in_order": (
+            "नीचे दिए गए शब्दों को सही क्रम में चुनें।"
+        ),
+        "undo_last_word": "पिछला शब्द हटाएँ",
+        "clear_sentence": "वाक्य साफ़ करें",
+        "type_your_sentence": "अपना वाक्य टाइप करें",
+        "use_hint": "संकेत लें ({count} शेष)",
+        "hint_message": "संकेत: {hint}",
+        "no_hearts_remaining": "आपके पास कोई हार्ट बाकी नहीं है।",
+        "restore_heart": "20 सिक्कों से एक हार्ट वापस पाएँ",
+        "restore_heart_requirement": (
+            "एक हार्ट वापस पाने के लिए कम से कम 20 सिक्के चाहिए।"
+        ),
+        "check_answer": "उत्तर जाँचें",
+        "incorrect_answer": (
+            "सही नहीं—शब्दों का क्रम जाँचें और फिर कोशिश करें।"
+        ),
+        "grammar_help": "व्याकरण सहायता: {explanation}",
+        "correct_reward": "सही! आपने {reward} सिक्के कमाए।",
+        "why_it_works": "यह क्यों सही है: {explanation}",
+        "correct_sentence": "सही वाक्य",
+        "pronunciation_bonus": "उच्चारण बोनस आज़माएँ",
+        "pronunciation_bonus_info": (
+            "उच्चारण रिकॉर्डर को उच्चारण चरण में जोड़ा जाएगा।"
+        ),
+        "next_challenge": "अगली चुनौती",
+    }
+)
+
+TRANSLATIONS.setdefault("fr", {}).update(
+    {
+        "home": "Accueil",
+        "language": "Langue",
+        "level": "Niveau",
+        "sentence_builder_instructions": (
+            "Construisez la phrase correcte. "
+            "Une mauvaise réponse coûte un cœur."
+        ),
+        "choose_prompt_types": (
+            "Choisissez les types d’indices pour ce tour"
+        ),
+        "prompt_type_situation": "Situation",
+        "prompt_type_translation": "Traduction",
+        "prompt_type_picture": "Image",
+        "prompt_type_target_language_clue": (
+            "Indice dans la langue cible"
+        ),
+        "select_prompt_type_warning": (
+            "Sélectionnez au moins un type d’indice avant de répondre."
+        ),
+        "real_life_situation": "Situation réelle : {situation}",
+        "meaning": "Signification",
+        "clue": "Indice",
+        "show_transliteration": "Afficher la translittération",
+        "answer_method": "Comment souhaitez-vous répondre ?",
+        "answer_method_word_tiles": "Tuiles de mots",
+        "answer_method_typing": "Saisie au clavier",
+        "your_sentence": "Votre phrase",
+        "select_words_in_order": (
+            "Sélectionnez les mots ci-dessous dans le bon ordre."
+        ),
+        "undo_last_word": "Annuler le dernier mot",
+        "clear_sentence": "Effacer la phrase",
+        "type_your_sentence": "Tapez votre phrase",
+        "use_hint": "Utiliser un indice (encore {count})",
+        "hint_message": "Indice : {hint}",
+        "no_hearts_remaining": "Vous n’avez plus aucun cœur.",
+        "restore_heart": "Récupérer un cœur pour 20 pièces",
+        "restore_heart_requirement": (
+            "Il vous faut au moins 20 pièces pour récupérer un cœur."
+        ),
+        "check_answer": "Vérifier la réponse",
+        "incorrect_answer": (
+            "Pas tout à fait — vérifiez l’ordre des mots et réessayez."
+        ),
+        "grammar_help": "Aide grammaticale : {explanation}",
+        "correct_reward": (
+            "Correct ! Vous avez gagné {reward} pièces."
+        ),
+        "why_it_works": "Pourquoi cela fonctionne : {explanation}",
+        "correct_sentence": "Phrase correcte",
+        "pronunciation_bonus": "Essayer le bonus de prononciation",
+        "pronunciation_bonus_info": (
+            "L’enregistreur sera intégré à l’étape de prononciation."
+        ),
+        "next_challenge": "Défi suivant",
+    }
+)
+
+TRANSLATIONS.setdefault("es", {}).update(
+    {
+        "home": "Inicio",
+        "language": "Idioma",
+        "level": "Nivel",
+        "sentence_builder_instructions": (
+            "Construye la oración correcta. "
+            "Cada respuesta incorrecta cuesta un corazón."
+        ),
+        "choose_prompt_types": (
+            "Elige los tipos de pista para esta ronda"
+        ),
+        "prompt_type_situation": "Situación",
+        "prompt_type_translation": "Traducción",
+        "prompt_type_picture": "Imagen",
+        "prompt_type_target_language_clue": (
+            "Pista en el idioma objetivo"
+        ),
+        "select_prompt_type_warning": (
+            "Selecciona al menos un tipo de pista antes de responder."
+        ),
+        "real_life_situation": (
+            "Situación de la vida real: {situation}"
+        ),
+        "meaning": "Significado",
+        "clue": "Pista",
+        "show_transliteration": "Mostrar transliteración",
+        "answer_method": "¿Cómo quieres responder?",
+        "answer_method_word_tiles": "Fichas de palabras",
+        "answer_method_typing": "Escribiendo",
+        "your_sentence": "Tu oración",
+        "select_words_in_order": (
+            "Selecciona las palabras de abajo en el orden correcto."
+        ),
+        "undo_last_word": "Deshacer la última palabra",
+        "clear_sentence": "Borrar la oración",
+        "type_your_sentence": "Escribe tu oración",
+        "use_hint": "Usar una pista (quedan {count})",
+        "hint_message": "Pista: {hint}",
+        "no_hearts_remaining": "No te quedan corazones.",
+        "restore_heart": "Recuperar un corazón por 20 monedas",
+        "restore_heart_requirement": (
+            "Necesitas al menos 20 monedas para recuperar un corazón."
+        ),
+        "check_answer": "Comprobar respuesta",
+        "incorrect_answer": (
+            "Casi—revisa el orden de las palabras e inténtalo de nuevo."
+        ),
+        "grammar_help": "Ayuda gramatical: {explanation}",
+        "correct_reward": (
+            "¡Correcto! Ganaste {reward} monedas."
+        ),
+        "why_it_works": "Por qué funciona: {explanation}",
+        "correct_sentence": "Oración correcta",
+        "pronunciation_bonus": "Probar el bono de pronunciación",
+        "pronunciation_bonus_info": (
+            "La grabadora se integrará en la etapa de pronunciación."
+        ),
+        "next_challenge": "Siguiente desafío",
+    }
+)
+
+TRANSLATIONS.setdefault("ko", {}).update(
+    {
+        "home": "홈",
+        "language": "언어",
+        "level": "레벨",
+        "sentence_builder_instructions": (
+            "올바른 문장을 만드세요. "
+            "오답을 제출하면 하트가 하나 줄어듭니다."
+        ),
+        "choose_prompt_types": (
+            "이번 라운드에 사용할 힌트 유형을 선택하세요"
+        ),
+        "prompt_type_situation": "상황",
+        "prompt_type_translation": "번역",
+        "prompt_type_picture": "그림",
+        "prompt_type_target_language_clue": "목표 언어 힌트",
+        "select_prompt_type_warning": (
+            "답하기 전에 힌트 유형을 하나 이상 선택하세요."
+        ),
+        "real_life_situation": "실생활 상황: {situation}",
+        "meaning": "의미",
+        "clue": "힌트",
+        "show_transliteration": "음역 표시",
+        "answer_method": "어떻게 답하시겠어요?",
+        "answer_method_word_tiles": "단어 타일",
+        "answer_method_typing": "직접 입력",
+        "your_sentence": "내 문장",
+        "select_words_in_order": (
+            "아래 단어를 올바른 순서로 선택하세요."
+        ),
+        "undo_last_word": "마지막 단어 취소",
+        "clear_sentence": "문장 지우기",
+        "type_your_sentence": "문장을 입력하세요",
+        "use_hint": "힌트 사용 ({count}개 남음)",
+        "hint_message": "힌트: {hint}",
+        "no_hearts_remaining": "남은 하트가 없습니다.",
+        "restore_heart": "코인 20개로 하트 1개 회복",
+        "restore_heart_requirement": (
+            "하트를 회복하려면 코인이 최소 20개 필요합니다."
+        ),
+        "check_answer": "정답 확인",
+        "incorrect_answer": (
+            "아쉬워요—단어 순서를 확인하고 다시 시도하세요."
+        ),
+        "grammar_help": "문법 도움말: {explanation}",
+        "correct_reward": (
+            "정답입니다! 코인 {reward}개를 획득했습니다."
+        ),
+        "why_it_works": "정답인 이유: {explanation}",
+        "correct_sentence": "올바른 문장",
+        "pronunciation_bonus": "발음 보너스 도전",
+        "pronunciation_bonus_info": (
+            "발음 녹음 기능은 발음 단계에 연결될 예정입니다."
+        ),
+        "next_challenge": "다음 도전",
+    }
+)
+
+TRANSLATIONS.setdefault("ja", {}).update(
+    {
+        "home": "ホーム",
+        "language": "言語",
+        "level": "レベル",
+        "sentence_builder_instructions": (
+            "正しい文を作りましょう。"
+            "間違えるとハートが1つ減ります。"
+        ),
+        "choose_prompt_types": (
+            "このラウンドで使うヒントの種類を選んでください"
+        ),
+        "prompt_type_situation": "状況",
+        "prompt_type_translation": "翻訳",
+        "prompt_type_picture": "画像",
+        "prompt_type_target_language_clue": "対象言語のヒント",
+        "select_prompt_type_warning": (
+            "回答する前に、ヒントの種類を1つ以上選んでください。"
+        ),
+        "real_life_situation": "実生活の場面：{situation}",
+        "meaning": "意味",
+        "clue": "ヒント",
+        "show_transliteration": "発音表記を表示",
+        "answer_method": "どの方法で答えますか？",
+        "answer_method_word_tiles": "単語タイル",
+        "answer_method_typing": "入力",
+        "your_sentence": "あなたの文",
+        "select_words_in_order": (
+            "下の単語を正しい順番で選んでください。"
+        ),
+        "undo_last_word": "最後の単語を取り消す",
+        "clear_sentence": "文を消去",
+        "type_your_sentence": "文を入力してください",
+        "use_hint": "ヒントを使う（残り{count}回）",
+        "hint_message": "ヒント：{hint}",
+        "no_hearts_remaining": "ハートが残っていません。",
+        "restore_heart": "20コインでハートを1つ回復",
+        "restore_heart_requirement": (
+            "ハートを回復するには20コイン以上必要です。"
+        ),
+        "check_answer": "答えを確認",
+        "incorrect_answer": (
+            "惜しいです—単語の順番を確認して、"
+            "もう一度試してください。"
+        ),
+        "grammar_help": "文法のヒント：{explanation}",
+        "correct_reward": (
+            "正解！{reward}コインを獲得しました。"
+        ),
+        "why_it_works": "正しい理由：{explanation}",
+        "correct_sentence": "正しい文",
+        "pronunciation_bonus": "発音ボーナスに挑戦",
+        "pronunciation_bonus_info": (
+            "発音録音機能は発音ステージに追加される予定です。"
+        ),
+        "next_challenge": "次のチャレンジ",
+    }
+)
