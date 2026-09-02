@@ -17,6 +17,7 @@ PROMPT_TYPES = [
     "Target-language clue",
 ]
 
+SESSION_LENGTHS = [5, 10, 15]
 
 def start_round(language, round_number=0):
     exercises = get_exercises(language)
@@ -36,6 +37,16 @@ def start_round(language, round_number=0):
         "feedback": None,
     }
 
+def start_session(language, total_rounds):
+    st.session_state.sentence_session = {
+        "language": language,
+        "total_rounds": total_rounds,
+        "completed_rounds": 0,
+        "correct_answers": 0,
+        "coins_earned": 0,
+        "finished": False,
+    }
+    start_round(language)
 
 def answer_from_tiles(game):
     tile_lookup = {
@@ -64,11 +75,67 @@ def render_sentence_builder():
 
     language = st.session_state.active_language
 
-    if (
-        "sentence_game" not in st.session_state
-        or st.session_state.sentence_game["language"]
-        != language
-    ):
+    session = st.session_state.get("sentence_session")
+
+    if session and session["language"] != language:
+        st.session_state.pop("sentence_session", None)
+        st.session_state.pop("sentence_game", None)
+        session = None
+
+    if session is None:
+        st.subheader(t("choose_session_length"))
+
+        selected_length = st.radio(
+            t("session_length"),
+            SESSION_LENGTHS,
+            horizontal=True,
+            format_func=lambda count: t(
+                "round_count",
+                count=count,
+            ),
+            key=f"sentence_session_length_{language}",
+        )
+
+        if st.button(
+            t("start_session"),
+            type="primary",
+        ):
+            start_session(language, selected_length)
+            st.rerun()
+
+        return
+
+    if session["finished"]:
+        st.success(t("session_complete"))
+
+        result_one, result_two = st.columns(2)
+
+        with result_one:
+            st.metric(
+                t("correct_answers"),
+                (
+                    f'{session["correct_answers"]}/'
+                    f'{session["total_rounds"]}'
+                ),
+            )
+
+        with result_two:
+            st.metric(
+                t("session_coins"),
+                session["coins_earned"],
+            )
+
+        if st.button(
+            t("play_again"),
+            type="primary",
+        ):
+            st.session_state.pop("sentence_session", None)
+            st.session_state.pop("sentence_game", None)
+            st.rerun()
+
+        return
+
+    if "sentence_game" not in st.session_state:
         start_round(language)
 
     game = st.session_state.sentence_game
@@ -78,20 +145,48 @@ def render_sentence_builder():
     progress = st.session_state.language_progress[language]
     level = progress["current_level"] or "Beginner"
 
-    information_one, information_two, information_three = (
-        st.columns(3)
+    completed_rounds = session["completed_rounds"]
+    total_rounds = session["total_rounds"]
+
+    st.progress(
+        completed_rounds / total_rounds,
+        text=t(
+            "session_progress",
+            completed=completed_rounds,
+            total=total_rounds,
+        ),
     )
 
-    with information_one:
-        st.metric(t("language"), language)
+    st.caption(
+        f"{t('language')}: {language} · "
+        f"{t('level')}: {level}"
+    )
 
-    with information_two:
-        st.metric(t("level"), level)
+    round_column, score_column = st.columns(2)
+    hearts_column, coins_column = st.columns(2)
 
-    with information_three:
+    with round_column:
+        st.metric(
+            t("current_round"),
+            f'{game["round_number"] + 1}/{total_rounds}',
+        )
+
+    with score_column:
+        st.metric(
+            t("correct_answers"),
+            session["correct_answers"],
+        )
+
+    with hearts_column:
         st.metric(
             t("hearts"),
             f"{st.session_state.hearts}/5",
+        )
+
+    with coins_column:
+        st.metric(
+            t("session_coins"),
+            session["coins_earned"],
         )
 
     st.caption(t("sentence_builder_instructions"))
@@ -268,7 +363,7 @@ def render_sentence_builder():
         can_restore = st.session_state.coins >= 20
 
         if st.button(
-            "Restore one heart for 20 coins",
+            t("restore_heart"),
             disabled=not can_restore,
         ):
             st.session_state.coins -= 20
@@ -277,7 +372,7 @@ def render_sentence_builder():
 
         if not can_restore:
             st.caption(
-                "You need at least 20 coins to restore a heart."
+                t("restore_heart_requirement")
             )
 
     answer_ready = bool(candidate_answer.strip())
@@ -306,6 +401,10 @@ def render_sentence_builder():
                 used_hint,
             )
 
+            session["completed_rounds"] += 1
+            session["correct_answers"] += 1
+            session["coins_earned"] += reward
+
             game["answered"] = True
             game["correct"] = True
             game["reward"] = reward
@@ -326,6 +425,7 @@ def render_sentence_builder():
 
             game["feedback"] = "incorrect"
 
+        st.rerun()
     if game["feedback"] == "incorrect":
         st.error(t("incorrect_answer"))
 
@@ -364,12 +464,28 @@ def render_sentence_builder():
                 st.info(t("pronunciation_bonus_info"))
 
         with next_column:
+            session_is_complete = (
+                session["completed_rounds"]
+                >= session["total_rounds"]
+            )
+
+            next_label = (
+                t("finish_session")
+                if session_is_complete
+                else f"{t('next_challenge')} →"
+            )
+
             if st.button(
-                f"{t('next_challenge')} →",
+                next_label,
                 type="primary",
             ):
-                start_round(
-                    language,
-                    game["round_number"] + 1,
-                )
+                if session_is_complete:
+                    session["finished"] = True
+                    st.session_state.pop("sentence_game", None)
+                else:
+                    start_round(
+                        language,
+                        game["round_number"] + 1,
+                    )
+
                 st.rerun()

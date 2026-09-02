@@ -1026,3 +1026,142 @@ TRANSLATIONS.setdefault("ja", {}).update(
         "next_challenge": "次のチャレンジ",
     }
 )
+
+TRANSLATIONS.setdefault("en", {}).update(
+    {
+        "choose_session_length": "Choose your session length",
+        "session_length": "How many rounds would you like?",
+        "round_count": "{count} rounds",
+        "start_session": "Start session",
+        "session_complete": "Session complete!",
+        "correct_answers": "Correct answers",
+        "session_coins": "Session coins",
+        "play_again": "Play again",
+        "finish_session": "Finish session",
+        "session_progress": (
+            "{completed} of {total} rounds completed"
+        ),
+        "current_round": "Current round",
+    }
+)
+
+TRANSLATIONS.setdefault("bn", {}).update(
+    {
+        "choose_session_length": "সেশনের দৈর্ঘ্য বেছে নিন",
+        "session_length": "আপনি কতটি রাউন্ড খেলতে চান?",
+        "round_count": "{count}টি রাউন্ড",
+        "start_session": "সেশন শুরু করুন",
+        "session_complete": "সেশন সম্পূর্ণ হয়েছে!",
+        "correct_answers": "সঠিক উত্তর",
+        "session_coins": "সেশনের কয়েন",
+        "play_again": "আবার খেলুন",
+        "finish_session": "সেশন শেষ করুন",
+        "session_progress": (
+            "{total}টি রাউন্ডের মধ্যে "
+            "{completed}টি সম্পন্ন হয়েছে"
+        ),
+        "current_round": "বর্তমান রাউন্ড",
+    }
+)
+
+TRANSLATIONS.setdefault("hi", {}).update(
+    {
+        "choose_session_length": "सत्र की लंबाई चुनें",
+        "session_length": "आप कितने राउंड खेलना चाहेंगे?",
+        "round_count": "{count} राउंड",
+        "start_session": "सत्र शुरू करें",
+        "session_complete": "सत्र पूरा हुआ!",
+        "correct_answers": "सही उत्तर",
+        "session_coins": "सत्र के सिक्के",
+        "play_again": "फिर से खेलें",
+        "finish_session": "सत्र समाप्त करें",
+        "session_progress": (
+            "{total} में से {completed} राउंड पूरे हुए"
+        ),
+        "current_round": "वर्तमान राउंड",
+    }
+)
+
+TRANSLATIONS.setdefault("fr", {}).update(
+    {
+        "choose_session_length": (
+            "Choisissez la durée de votre session"
+        ),
+        "session_length": (
+            "Combien de manches souhaitez-vous jouer ?"
+        ),
+        "round_count": "{count} manches",
+        "start_session": "Commencer la session",
+        "session_complete": "Session terminée !",
+        "correct_answers": "Bonnes réponses",
+        "session_coins": "Pièces de la session",
+        "play_again": "Rejouer",
+        "finish_session": "Terminer la session",
+        "session_progress": (
+            "{completed} manches sur {total} terminées"
+        ),
+        "current_round": "Manche actuelle",
+    }
+)
+
+TRANSLATIONS.setdefault("es", {}).update(
+    {
+        "choose_session_length": (
+            "Elige la duración de la sesión"
+        ),
+        "session_length": (
+            "¿Cuántas rondas quieres jugar?"
+        ),
+        "round_count": "{count} rondas",
+        "start_session": "Comenzar la sesión",
+        "session_complete": "¡Sesión completada!",
+        "correct_answers": "Respuestas correctas",
+        "session_coins": "Monedas de la sesión",
+        "play_again": "Jugar de nuevo",
+        "finish_session": "Finalizar sesión",
+        "session_progress": (
+            "{completed} de {total} rondas completadas"
+        ),
+        "current_round": "Ronda actual",
+    }
+)
+
+TRANSLATIONS.setdefault("ko", {}).update(
+    {
+        "choose_session_length": "세션 길이를 선택하세요",
+        "session_length": "몇 라운드를 플레이하시겠어요?",
+        "round_count": "{count}라운드",
+        "start_session": "세션 시작",
+        "session_complete": "세션 완료!",
+        "correct_answers": "정답 수",
+        "session_coins": "세션 코인",
+        "play_again": "다시 플레이",
+        "finish_session": "세션 종료",
+        "session_progress": (
+            "총 {total}라운드 중 "
+            "{completed}라운드 완료"
+        ),
+        "current_round": "현재 라운드",
+    }
+)
+
+TRANSLATIONS.setdefault("ja", {}).update(
+    {
+        "choose_session_length": (
+            "セッションの長さを選んでください"
+        ),
+        "session_length": "何ラウンドプレイしますか？",
+        "round_count": "{count}ラウンド",
+        "start_session": "セッションを開始",
+        "session_complete": "セッション完了！",
+        "correct_answers": "正解数",
+        "session_coins": "セッションコイン",
+        "play_again": "もう一度プレイ",
+        "finish_session": "セッションを終了",
+        "session_progress": (
+            "全{total}ラウンド中"
+            "{completed}ラウンド完了"
+        ),
+        "current_round": "現在のラウンド",
+    }
+)
