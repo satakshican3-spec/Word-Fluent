@@ -3,7 +3,9 @@ import re
 import unicodedata
 from copy import deepcopy
 from language_packs.bengali import get_bengali_course
-
+from services.multilingual_sentences import (
+    build_multilingual_exercises,
+)
 
 EXERCISES = {
     "English": [
@@ -383,7 +385,7 @@ def _course_to_sentence_exercises(
                 if len(converted) >= limit:
                     return converted
 
-return converted
+    return converted
 
 def get_exercises(language):
     exercises = list(
@@ -406,7 +408,21 @@ def get_exercises(language):
                 ],
             )
         )
+    if language in {
+        "French",
+        "Spanish",
+        "Hindi",
+        "Korean",
+        "Japanese",
+    }:
+        needed = max(0, 15 - len(exercises))
 
+        exercises.extend(
+            build_multilingual_exercises(
+                language,
+                needed,
+            )
+        )
     return deepcopy(exercises)
 
 
