@@ -2,6 +2,7 @@ import random
 import re
 import unicodedata
 from copy import deepcopy
+from language_packs.bengali import get_bengali_course
 
 
 EXERCISES = {
@@ -327,12 +328,84 @@ EXERCISES = {
     ],
 }
 
+def _course_to_sentence_exercises(
+    course,
+    limit,
+    excluded_answers,
+):
+    converted = []
+    seen = {
+        answer.casefold().strip(" .!?")
+        for answer in excluded_answers
+        if answer
+    }
+
+    for unit in course.get("units", []):
+        for lesson in unit.get("lessons", []):
+            for item in lesson.get("exercises", []):
+                answer = str(item.get("answer", "")).strip()
+                answer_key = answer.casefold().strip(" .!?")
+
+                if not answer or answer_key in seen:
+                    continue
+
+                words = (
+                    item.get("words")
+                    or answer.strip(" .!?").split()
+                )
+                explanation = str(
+                    item.get("explanation", "")
+                ).strip()
+
+                converted.append(
+                    {
+                        "situation": (
+                            f'Practice from the lesson '
+                            f'"{lesson.get("title", "Bengali")}".'
+                        ),
+                        "translation": str(
+                            item.get("prompt", "")
+                        ).strip(),
+                        "picture": lesson.get("icon") or "🧩",
+                        "clue": explanation,
+                        "answer": answer,
+                        "accepted_answers": (
+                            item.get("accepted_answers") or []
+                        ),
+                        "words": list(words),
+                        "transliteration": None,
+                        "explanation": explanation,
+                    }
+                )
+
+                seen.add(answer_key)
+
+                if len(converted) >= limit:
+                    return converted
+
+return converted
 
 def get_exercises(language):
-    exercises = EXERCISES.get(
-        language,
-        EXERCISES["English"],
+    exercises = list(
+        EXERCISES.get(
+            language,
+            EXERCISES["English"],
+        )
     )
+
+    if language == "Bengali":
+        needed = max(0, 15 - len(exercises))
+
+        exercises.extend(
+            _course_to_sentence_exercises(
+                get_bengali_course(),
+                needed,
+                [
+                    exercise.get("answer", "")
+                    for exercise in exercises
+                ],
+            )
+        )
 
     return deepcopy(exercises)
 
