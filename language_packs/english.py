@@ -64,6 +64,8 @@ def _lesson(
 
 ENGLISH_COURSE = {
     "language": "English",
+    "language_code": "EN",
+    "native_name": "English",
     "level": "Beginner",
     "title": "English Foundations",
     "description": (

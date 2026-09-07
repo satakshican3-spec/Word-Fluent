@@ -597,6 +597,19 @@ def _render_setup(
     )
 
 
+    with st.container(border=True):
+        st.markdown(
+            f"### 📚 {t('learn_before_practice_title')}"
+        )
+        st.write(t("learn_before_practice_help"))
+
+        if st.button(
+            f"📚 {t('open_learning_path')} →",
+            key=f"open_learning_path_{language}",
+            use_container_width=True,
+        ):
+            st.session_state.current_view = "Lessons"
+            st.rerun()
 
     length = (
         st.segmented_control(

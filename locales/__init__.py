@@ -1165,3 +1165,101 @@ TRANSLATIONS.setdefault("ja", {}).update(
         "current_round": "現在のラウンド",
     }
 )
+
+LEARNING_PATH_TRANSLATIONS = {
+    "en": {
+        "lessons": "Learning Path",
+        "lessons_description": (
+            "Learn words, meanings, pronunciation, and grammar "
+            "before practising."
+        ),
+        "learn_before_practice_title": "New to this language?",
+        "learn_before_practice_help": (
+            "Learn the words, meanings, pronunciation, and grammar "
+            "before building sentences."
+        ),
+        "open_learning_path": "Open Learning Path",
+    },
+    "bn": {
+        "lessons": "শেখার পথ",
+        "lessons_description": (
+            "অনুশীলনের আগে শব্দ, অর্থ, উচ্চারণ ও ব্যাকরণ শিখুন।"
+        ),
+        "learn_before_practice_title": "এই ভাষায় নতুন?",
+        "learn_before_practice_help": (
+            "বাক্য তৈরি করার আগে শব্দ, অর্থ, উচ্চারণ ও ব্যাকরণ শিখুন।"
+        ),
+        "open_learning_path": "শেখার পথ খুলুন",
+    },
+    "hi": {
+        "lessons": "सीखने का मार्ग",
+        "lessons_description": (
+            "अभ्यास से पहले शब्द, अर्थ, उच्चारण और व्याकरण सीखें।"
+        ),
+        "learn_before_practice_title": "इस भाषा में नए हैं?",
+        "learn_before_practice_help": (
+            "वाक्य बनाने से पहले शब्द, अर्थ, उच्चारण और व्याकरण सीखें।"
+        ),
+        "open_learning_path": "सीखने का मार्ग खोलें",
+    },
+    "fr": {
+        "lessons": "Parcours d’apprentissage",
+        "lessons_description": (
+            "Apprenez les mots, leur sens, la prononciation et la "
+            "grammaire avant de pratiquer."
+        ),
+        "learn_before_practice_title": (
+            "Vous débutez dans cette langue ?"
+        ),
+        "learn_before_practice_help": (
+            "Apprenez les mots, leur sens, la prononciation et la "
+            "grammaire avant de construire des phrases."
+        ),
+        "open_learning_path": (
+            "Ouvrir le parcours d’apprentissage"
+        ),
+    },
+    "es": {
+        "lessons": "Ruta de aprendizaje",
+        "lessons_description": (
+            "Aprende palabras, significados, pronunciación y "
+            "gramática antes de practicar."
+        ),
+        "learn_before_practice_title": (
+            "¿Eres nuevo en este idioma?"
+        ),
+        "learn_before_practice_help": (
+            "Aprende las palabras, sus significados, la pronunciación "
+            "y la gramática antes de construir frases."
+        ),
+        "open_learning_path": "Abrir la ruta de aprendizaje",
+    },
+    "ko": {
+        "lessons": "학습 경로",
+        "lessons_description": (
+            "연습 전에 단어, 뜻, 발음, 문법을 배우세요."
+        ),
+        "learn_before_practice_title": "이 언어가 처음인가요?",
+        "learn_before_practice_help": (
+            "문장을 만들기 전에 단어, 뜻, 발음, 문법을 배우세요."
+        ),
+        "open_learning_path": "학습 경로 열기",
+    },
+    "ja": {
+        "lessons": "学習コース",
+        "lessons_description": (
+            "練習の前に、単語・意味・発音・文法を学びましょう。"
+        ),
+        "learn_before_practice_title": (
+            "この言語は初めてですか？"
+        ),
+        "learn_before_practice_help": (
+            "文を作る前に、単語・意味・発音・文法を学びましょう。"
+        ),
+        "open_learning_path": "学習コースを開く",
+    },
+}
+
+
+for _language_code, _strings in LEARNING_PATH_TRANSLATIONS.items():
+    TRANSLATIONS.setdefault(_language_code, {}).update(_strings)

@@ -238,6 +238,12 @@ def render_home():
 
     activities = [
         (
+            "📚",
+            "Lessons",
+            t("lessons_description"),
+            SKILL_COLORS["Grammar"],
+        ),
+        (
             "🧩",
             "Sentence Builder",
             t("sentence_builder_description"),
@@ -248,12 +254,6 @@ def render_home():
             "Pronunciation",
             t("pronunciation_description"),
             SKILL_COLORS["Pronunciation"],
-        ),
-        (
-            "📚",
-            "Lessons",
-            t("lessons_description"),
-            SKILL_COLORS["Grammar"],
         ),
         (
             "🏆",

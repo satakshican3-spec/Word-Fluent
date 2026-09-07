@@ -61,6 +61,7 @@ def _lesson(
 BENGALI_COURSE = {
     "language": "Bengali",
     "language_code": "BN",
+    "native_name": "বাংলা",
     "level": "Beginner",
     "title": "বাংলা শুরু — Bengali Foundations",
     "description": (
