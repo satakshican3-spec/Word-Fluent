@@ -612,6 +612,215 @@ LESSON_TEXT = {
     },
 }
 
+PRONUNCIATION_TEXT = {
+    "en": {
+        "sound_guide": "Say it like",
+        "pronunciation_help": (
+            "Read the sound guide in small parts, then compare the "
+            "normal and slow audio."
+        ),
+        "normal_audio": "Normal",
+        "slow_audio": "Slow",
+    },
+    "bn": {
+        "sound_guide": "এভাবে বলুন",
+        "pronunciation_help": (
+            "উচ্চারণটি ছোট ছোট অংশে পড়ুন, তারপর স্বাভাবিক ও ধীর "
+            "অডিও শুনুন।"
+        ),
+        "normal_audio": "স্বাভাবিক",
+        "slow_audio": "ধীরে",
+    },
+    "hi": {
+        "sound_guide": "ऐसे बोलें",
+        "pronunciation_help": (
+            "उच्चारण को छोटे हिस्सों में पढ़ें, फिर सामान्य और धीमा "
+            "ऑडियो सुनें।"
+        ),
+        "normal_audio": "सामान्य",
+        "slow_audio": "धीरे",
+    },
+    "fr": {
+        "sound_guide": "Prononcez ainsi",
+        "pronunciation_help": (
+            "Lisez le guide par petits groupes de sons, puis comparez "
+            "l’audio normal et lent."
+        ),
+        "normal_audio": "Normal",
+        "slow_audio": "Lent",
+    },
+    "es": {
+        "sound_guide": "Pronúncialo así",
+        "pronunciation_help": (
+            "Lee la guía en pequeños grupos de sonidos y compara el "
+            "audio normal y lento."
+        ),
+        "normal_audio": "Normal",
+        "slow_audio": "Lento",
+    },
+    "ko": {
+        "sound_guide": "이렇게 발음해요",
+        "pronunciation_help": (
+            "발음 표기를 짧게 나누어 읽고 보통 속도와 느린 "
+            "오디오를 비교하세요."
+        ),
+        "normal_audio": "보통",
+        "slow_audio": "느리게",
+    },
+    "ja": {
+        "sound_guide": "このように発音",
+        "pronunciation_help": (
+            "発音ガイドを短く区切って読み、通常とゆっくりの音声を"
+            "比べましょう。"
+        ),
+        "normal_audio": "通常",
+        "slow_audio": "ゆっくり",
+    },
+}
+
+for _language_code, _strings in PRONUNCIATION_TEXT.items():
+    LESSON_TEXT.setdefault(_language_code, {}).update(_strings)
+
+SOUND_GUIDES = {
+    "English": {
+        "Hello": "huh-LOH",
+        "Good morning": "good MOR-ning",
+        "Good evening": "good EEV-ning",
+        "Goodbye": "good-BYE",
+        "See you later": "see yoo LAY-ter",
+        "My name is...": "my NAYM iz",
+        "I am...": "eye AM",
+        "What is your name?": "wuht iz yor NAYM",
+        "Nice to meet you": "nyss tuh MEET yoo",
+        "Please": "pleez",
+        "Thank you": "THANK yoo",
+        "You’re welcome": "yor WEL-kum",
+        "Excuse me": "ik-SKYOOZ mee",
+        "Sorry": "SOR-ee",
+        "Family": "FAM-uh-lee",
+        "Parent": "PAIR-uhnt",
+        "Brother": "BRUTH-er",
+        "Sister": "SIS-ter",
+        "Friend": "frend",
+        "Eat": "eet",
+        "Drink": "dringk",
+        "Work": "wurk",
+        "Study": "STUH-dee",
+        "Go": "goh",
+        "Morning": "MOR-ning",
+        "Afternoon": "af-ter-NOON",
+        "Evening": "EEV-ning",
+        "Today": "tuh-DAY",
+        "Tomorrow": "tuh-MOR-oh",
+        "Menu": "MEN-yoo",
+        "Water": "WAW-ter",
+        "Coffee": "KAW-fee",
+        "Bill": "bil",
+        "I would like...": "eye wood LYKE",
+        "Where is...?": "wair iz",
+        "Left": "left",
+        "Right": "ryt",
+        "Straight": "strayt",
+        "Near": "neer",
+        "Help": "help",
+        "I need...": "eye NEED",
+        "I don’t understand": "eye dohnt un-der-STAND",
+        "Please repeat": "pleez ree-PEET",
+        "Emergency": "ih-MUR-juhn-see",
+    },
+    "Korean": {
+        "안녕하세요": "an-nyeong-ha-se-yo",
+        "안녕히 가세요": "an-nyeong-hi ga-se-yo",
+        "부탁합니다": "bu-tak-ham-ni-da",
+        "감사합니다": "gam-sa-ham-ni-da",
+        "괜찮아요": "gwaen-cha-na-yo",
+        "제 이름은…입니다": "je i-reu-meun… im-ni-da",
+        "이름이 뭐예요?": "i-reu-mi mwo-ye-yo?",
+        "네": "neh",
+        "아니요": "a-ni-yo",
+        "만나서 반가워요": "man-na-seo ban-ga-wo-yo",
+        "물": "mul",
+        "음식": "eum-shik",
+        "화장실": "hwa-jang-shil",
+        "도와주세요": "do-wa-ju-se-yo",
+        "얼마예요?": "eol-ma-ye-yo?",
+        "가족": "ga-jok",
+        "어머니": "eo-meo-ni",
+        "아버지": "a-beo-ji",
+        "부모님": "bu-mo-nim",
+        "친구": "chin-gu",
+        "하나": "ha-na",
+        "둘": "dul",
+        "열": "yeol",
+        "열네": "yeol-le",
+        "몇 살이에요?": "myeot sal-i-e-yo?",
+        "밥": "bap",
+        "빵": "ppang",
+        "주세요": "ju-se-yo",
+        "계산해 주세요": "gye-san-hae ju-se-yo",
+        "학교": "hak-gyo",
+        "공부하다": "gong-bu-ha-da",
+        "일하다": "il-ha-da",
+        "아침": "a-chim",
+        "매일": "mae-il",
+        "몇 시예요?": "myeot shi-ye-yo?",
+        "오늘": "o-neul",
+        "내일": "nae-il",
+        "여덟 시": "yeo-deol shi",
+        "만나요": "man-na-yo",
+        "어디예요?": "eo-di-ye-yo?",
+        "왼쪽": "wen-jjok",
+        "오른쪽": "o-reun-jjok",
+        "곧장": "got-jang",
+        "역": "yeok",
+    },
+    "Japanese": {
+        "こんにちは": "kon-ni-chi-wa",
+        "おはようございます": "o-ha-yo-o go-za-i-mas",
+        "さようなら": "sa-yo-o-na-ra",
+        "お願いします": "o-ne-ga-i-shi-mas",
+        "ありがとうございます": "a-ri-ga-to-o go-za-i-mas",
+        "私の名前は…です": "wa-ta-shi no na-ma-e wa… des",
+        "お名前は何ですか？": "o-na-ma-e wa nan des ka?",
+        "はい": "hai",
+        "いいえ": "ee-eh",
+        "はじめまして": "ha-ji-me-ma-shi-te",
+        "水": "mi-zu",
+        "食べ物": "ta-be-mo-no",
+        "トイレ": "to-i-re",
+        "助けてください": "ta-su-ke-te ku-da-sai",
+        "いくらですか？": "i-ku-ra des ka?",
+        "家族": "ka-zo-ku",
+        "母": "ha-ha",
+        "父": "chi-chi",
+        "兄": "a-ni",
+        "友だち": "to-mo-da-chi",
+        "一": "i-chi",
+        "二": "ni",
+        "十": "ju-u",
+        "十四歳": "ju-u-yon-sai",
+        "何歳ですか？": "nan-sai des ka?",
+        "ご飯": "go-han",
+        "パン": "pan",
+        "ください": "ku-da-sai",
+        "お会計": "o-kai-kei",
+        "学校": "gak-ko-o",
+        "勉強します": "ben-kyo-o shi-mas",
+        "働きます": "ha-ta-ra-ki-mas",
+        "朝": "a-sa",
+        "毎日": "mai-ni-chi",
+        "何時ですか？": "nan-ji des ka?",
+        "今日": "kyo-o",
+        "明日": "a-shi-ta",
+        "八時": "ha-chi-ji",
+        "会います": "a-i-mas",
+        "どこですか？": "do-ko des ka?",
+        "左": "hi-da-ri",
+        "右": "mi-gi",
+        "まっすぐ": "mas-su-gu",
+        "駅": "e-ki",
+    },
+}
 
 STAGES = [
     ("vocabulary", "words_stage", "📖"),
@@ -906,7 +1115,9 @@ def _apply_styles():
             font-weight: 900;
         }
 
-        .wf-word-pronunciation {
+        .wf-word-pronunciation {display:block;padding:.58rem .7rem;margin:.25rem 0 .8rem;border:1px solid rgba(139,92,246,.18);border-radius:12px;color:#6d28d9;background:rgba(139,92,246,.09)}
+        .wf-word-pronunciation span {display:block;margin-bottom:.12rem;font-size:.64rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase}
+        .wf-word-pronunciation strong {display:block;font-size:.9rem;letter-spacing:.035em;line-height:1.45}
             display: inline-block;
             padding: .27rem .55rem;
             margin-bottom: .8rem;
@@ -1424,148 +1635,120 @@ def _lesson_title(
 
 
 @st.cache_data(show_spinner=False)
-def _reference_audio(text, language):
-    return generate_reference_audio(
-        text,
-        language,
-        False,
-    )
+def _reference_audio(text, language, slow=False):
+    return generate_reference_audio(text, language, slow)
 
 
 def _audio_text(item):
-    value = item.get(
-        "audio_text",
-        item["term"],
-    )
-
-    return re.sub(
-        r"\s*\([^)]*\)\s*",
-        "",
-        value,
-    ).strip()
+    value = item.get("audio_text", item["term"])
+    value = re.sub(r"\s*\([^)]*\)\s*", "", value)
+    return re.sub(r"[…]+", "", value).strip()
 
 
-def _word_card(item, number):
-    pronunciation = item.get(
-        "pronunciation",
-        "",
+def _term_and_pronunciation(item, language):
+    term = item["term"]
+    pronunciation = item.get("pronunciation", "")
+
+    if not pronunciation:
+        match = re.fullmatch(r"(.+?)\s*\(([^()]*)\)\s*", term)
+
+        if match:
+            term = match.group(1).strip()
+            pronunciation = match.group(2).strip()
+
+    pronunciation = SOUND_GUIDES.get(language, {}).get(
+        term,
+        pronunciation,
     )
-    example_meaning = item.get(
-        "example_meaning",
-        "",
+    pronunciation = re.sub(
+        r"\s*-\s*",
+        " · ",
+        pronunciation,
     )
-    top_label = (
-        _lt("pronunciation")
+    return term, pronunciation
+
+
+def _word_card(item, number, language):
+    term, pronunciation = _term_and_pronunciation(item, language)
+    example_meaning = item.get("example_meaning", "")
+    pronunciation_html = (
+        '<div class="wf-word-pronunciation">'
+        f'<span>🔤 {_safe(_lt("sound_guide"))}</span>'
+        f'<strong>{_safe(pronunciation)}</strong></div>'
         if pronunciation
         else ""
     )
-
-    if pronunciation:
-        pronunciation_html = (
-            '<div class="wf-word-pronunciation">'
-            f"🔤 {_safe(pronunciation)}"
-            "</div>"
-        )
-    else:
-        pronunciation_html = ""
-
-    if example_meaning:
-        example_meaning_html = (
-            "<small>"
-            f'{_safe(_lt("example_meaning"))}: '
-            f"{_safe(example_meaning)}"
-            "</small>"
-        )
-    else:
-        example_meaning_html = ""
-
+    example_meaning_html = (
+        f'<small>{_safe(_lt("example_meaning"))}: '
+        f'{_safe(example_meaning)}</small>'
+        if example_meaning
+        else ""
+    )
     st.markdown(
         (
-            '<div class="wf-word-card">'
-            '<div class="wf-word-top">'
-            '<span class="wf-word-number">'
-            f"{number}</span>"
-            '<span class="wf-word-label">'
-            f"{_safe(top_label)}</span>"
-            "</div>"
-            '<div class="wf-word-term">'
-            f'{_safe(item["term"])}</div>'
-            f"{pronunciation_html}"
-            '<div class="wf-word-label">'
-            f'{_safe(_lt("meaning"))}</div>'
-            '<div class="wf-word-meaning">'
-            f'{_safe(item["meaning"])}</div>'
-            '<div class="wf-word-label">'
-            f'{_safe(_lt("example"))}</div>'
-            '<div class="wf-word-example">'
-            f'{_safe(item["example"])}'
-            f"{example_meaning_html}"
-            "</div></div>"
+            '<div class="wf-word-card"><div class="wf-word-top">'
+            f'<span class="wf-word-number">{number}</span></div>'
+            f'<div class="wf-word-term">{_safe(term)}</div>'
+            f'{pronunciation_html}'
+            f'<div class="wf-word-label">{_safe(_lt("meaning"))}</div>'
+            f'<div class="wf-word-meaning">{_safe(item["meaning"])}</div>'
+            f'<div class="wf-word-label">{_safe(_lt("example"))}</div>'
+            f'<div class="wf-word-example">{_safe(item["example"])}'
+            f'{example_meaning_html}</div></div>'
         ),
         unsafe_allow_html=True,
     )
 
 
-def _render_vocabulary(
-    course,
-    lesson,
-    run,
-):
-    _lesson_title(
-        course,
-        lesson,
-        run["stage"],
-    )
-
-    st.markdown(
-        f"## {_lt('learn_words')}"
-    )
+def _render_vocabulary(course, lesson, run):
+    _lesson_title(course, lesson, run["stage"])
+    st.markdown(f"## {_lt('learn_words')}")
     st.write(_lt("learn_words_help"))
-
+    st.info(f"🔤 {_lt('pronunciation_help')}")
     columns = st.columns(2)
 
-    for index, item in enumerate(
-        lesson["vocabulary"]
-    ):
+    for index, item in enumerate(lesson["vocabulary"]):
         with columns[index % 2]:
-            _word_card(
-                item,
-                index + 1,
-            )
+            _word_card(item, index + 1, course["language"])
+            normal, slow = st.columns(2)
+            audio_request = None
 
-            if st.button(
-                f"🔊 {_lt('listen')}",
-                key=(
-                    f'listen_{lesson["id"]}_{index}'
-                ),
-                use_container_width=True,
-            ):
+            with normal:
+                if st.button(
+                    f"🔊 {_lt('normal_audio')}",
+                    key=f'listen_{lesson["id"]}_{index}',
+                    use_container_width=True,
+                ):
+                    audio_request = False
+
+            with slow:
+                if st.button(
+                    f"🐢 {_lt('slow_audio')}",
+                    key=f'slow_listen_{lesson["id"]}_{index}',
+                    use_container_width=True,
+                ):
+                    audio_request = True
+
+            if audio_request is not None:
                 result = _reference_audio(
                     _audio_text(item),
                     course["language"],
+                    audio_request,
                 )
 
                 if result["success"]:
-                    st.audio(
-                        result["audio"],
-                        format="audio/mp3",
-                    )
+                    st.audio(result["audio"], format="audio/mp3")
                 else:
-                    st.warning(
-                        _lt("audio_error")
-                    )
+                    st.warning(_lt("audio_error"))
 
     if st.button(
         f"{_lt('continue_pattern')} →",
         type="primary",
-        key=(
-            f'vocabulary_done_{lesson["id"]}'
-        ),
+        key=f'vocabulary_done_{lesson["id"]}',
         use_container_width=True,
     ):
         run["stage"] = "grammar"
         st.rerun()
-
 
 def _render_grammar(
     course,

@@ -1,7 +1,7 @@
 """Starter learning paths for WordFluent's additional languages."""
 
 from copy import deepcopy
-
+from language_packs.expanded_lessons import get_extra_lessons
 
 def _vocabulary(*items):
     return [
@@ -1285,4 +1285,6 @@ def get_starter_course(language):
     if course is None:
         return None
 
-    return deepcopy(course)
+    course = deepcopy(course)
+    course["units"][0] ["lessons"].extend(get_extra_lessons(language))
+    return course
