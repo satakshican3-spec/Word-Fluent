@@ -1,10 +1,8 @@
 import unicodedata
 from difflib import SequenceMatcher
-from io import BytesIO
 
 import speech_recognition as sr
-from gtts import gTTS
-from gtts.tts import gTTSError
+import edge_tts
 
 
 RECOGNITION_LOCALES = {
@@ -17,15 +15,18 @@ RECOGNITION_LOCALES = {
     "Japanese": "ja-JP",
 }
 
-TTS_LANGUAGE_CODES = {
-    "English": "en",
-    "French": "fr",
-    "Spanish": "es",
-    "Hindi": "hi",
-    "Bengali": "bn",
-    "Korean": "ko",
-    "Japanese": "ja",
+TTS_VOICES = {
+    "English": "en-US-AndrewNeural",
+    "French": "fr-FR-HenriNeural",
+    "Spanish": "es-ES-AlvaroNeural",
+    "Hindi": "hi-IN-MadhurNeural",
+    "Bengali": "bn-IN-BashkarNeural",
+    "Korean": "ko-KR-InJoonNeural",
+    "Japanese": "ja-JP-KeitaNeural",
 }
+
+NORMAL_SPEECH_RATE = "+0%"
+SLOW_SPEECH_RATE = "-18%"
 
 SCORE_THRESHOLDS = {
     "Beginner": 55,
@@ -83,36 +84,37 @@ def generate_reference_audio(
             "error": "There is no phrase to read aloud.",
         }
 
-    audio_buffer = BytesIO()
-
     try:
-        speech = gTTS(
-            text=phrase,
-            lang=TTS_LANGUAGE_CODES.get(
+        speech = edge_tts.Communicate(
+            phrase,
+            TTS_VOICES.get(
                 language,
-                "en",
+                TTS_VOICES["English"],
             ),
-            slow=slow,
-            lang_check=False,
-            timeout=10,
+            rate=(
+                SLOW_SPEECH_RATE
+                if slow
+                else NORMAL_SPEECH_RATE
+            ),
         )
+        audio = bytearray()
 
-        speech.write_to_fp(audio_buffer)
+        for chunk in speech.stream_sync():
+            if chunk["type"] == "audio":
+                audio.extend(chunk["data"])
+
+        if not audio:
+            raise RuntimeError(
+                "The speech service returned no audio."
+            )
 
         return {
             "success": True,
-            "audio": audio_buffer.getvalue(),
+            "audio": bytes(audio),
             "error": None,
         }
 
-    except (
-        gTTSError,
-        AssertionError,
-        RuntimeError,
-        TypeError,
-        ValueError,
-        OSError,
-    ):
+    except Exception:
         return {
             "success": False,
             "audio": b"",
