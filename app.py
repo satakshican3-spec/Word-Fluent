@@ -3,6 +3,7 @@ import streamlit as st
 from components.account import render_account
 from components.home import render_home
 from components.lessons import render_lessons
+from components.listening import render_listening
 from components.progress import render_progress
 from components.pronunciation import render_pronunciation
 from components.sentence_builder import (
@@ -122,6 +123,7 @@ if st.session_state.current_view != "Account":
 VIEWS = {
     "Home": render_home,
     "Account": render_account,
+    "Listening": render_listening,
     "Sentence Builder": render_sentence_builder,
     "Pronunciation": render_pronunciation,
     "Lessons": render_lessons,

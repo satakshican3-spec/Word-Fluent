@@ -1263,3 +1263,212 @@ LEARNING_PATH_TRANSLATIONS = {
 
 for _language_code, _strings in LEARNING_PATH_TRANSLATIONS.items():
     TRANSLATIONS.setdefault(_language_code, {}).update(_strings)
+
+LISTENING_TRANSLATIONS = {
+    "en": {
+        "listening": "Listening",
+        "listening_description": (
+            "Hear useful phrases and choose the correct meaning."
+        ),
+        "listening_title": "Listening Practice",
+        "listening_instructions": (
+            "Listen carefully, then choose what the phrase means. "
+            "A wrong answer costs one heart."
+        ),
+        "listening_round": "Question {current} of {total}",
+        "listen_normal": "Normal",
+        "listen_slow": "Slow",
+        "preparing_audio": "Preparing audio...",
+        "what_did_you_hear": "What did you hear?",
+        "choose_meaning": "Choose the correct meaning",
+        "listening_correct": (
+            "Correct! You earned {reward} coins."
+        ),
+        "listening_incorrect": (
+            "Not quite. Review the correct phrase and meaning below."
+        ),
+        "phrase_you_heard": "Phrase you heard",
+        "next_audio": "Next audio",
+        "listening_score": "Listening score",
+        "listening_questions_correct": (
+            "{correct} of {total} correct"
+        ),
+    },
+    "bn": {
+        "listening": "শোনা",
+        "listening_description": (
+            "দরকারি বাক্য শুনুন এবং সঠিক অর্থ বেছে নিন।"
+        ),
+        "listening_title": "শোনার অনুশীলন",
+        "listening_instructions": (
+            "মন দিয়ে শুনুন, তারপর বাক্যটির সঠিক অর্থ বেছে নিন। "
+            "ভুল উত্তরে একটি হার্ট কমবে।"
+        ),
+        "listening_round": "প্রশ্ন {current} / {total}",
+        "listen_normal": "স্বাভাবিক",
+        "listen_slow": "ধীরে",
+        "preparing_audio": "অডিও প্রস্তুত হচ্ছে...",
+        "what_did_you_hear": "আপনি কী শুনলেন?",
+        "choose_meaning": "সঠিক অর্থ বেছে নিন",
+        "listening_correct": (
+            "সঠিক! আপনি {reward}টি কয়েন পেয়েছেন।"
+        ),
+        "listening_incorrect": (
+            "ঠিক হয়নি। নিচে সঠিক বাক্য ও অর্থ দেখুন।"
+        ),
+        "phrase_you_heard": "আপনি যে বাক্যটি শুনেছেন",
+        "next_audio": "পরবর্তী অডিও",
+        "listening_score": "শোনার স্কোর",
+        "listening_questions_correct": (
+            "{total}টির মধ্যে {correct}টি সঠিক"
+        ),
+    },
+    "hi": {
+        "listening": "सुनना",
+        "listening_description": (
+            "उपयोगी वाक्य सुनें और सही अर्थ चुनें।"
+        ),
+        "listening_title": "सुनने का अभ्यास",
+        "listening_instructions": (
+            "ध्यान से सुनें, फिर वाक्य का सही अर्थ चुनें। "
+            "गलत उत्तर पर एक हार्ट कम होगा।"
+        ),
+        "listening_round": "प्रश्न {current} / {total}",
+        "listen_normal": "सामान्य",
+        "listen_slow": "धीमा",
+        "preparing_audio": "ऑडियो तैयार हो रहा है...",
+        "what_did_you_hear": "आपने क्या सुना?",
+        "choose_meaning": "सही अर्थ चुनें",
+        "listening_correct": (
+            "सही! आपने {reward} सिक्के कमाए।"
+        ),
+        "listening_incorrect": (
+            "सही नहीं। नीचे सही वाक्य और अर्थ देखें।"
+        ),
+        "phrase_you_heard": "आपने यह वाक्य सुना",
+        "next_audio": "अगला ऑडियो",
+        "listening_score": "सुनने का स्कोर",
+        "listening_questions_correct": (
+            "{total} में से {correct} सही"
+        ),
+    },
+    "fr": {
+        "listening": "Écoute",
+        "listening_description": (
+            "Écoutez des phrases utiles et choisissez leur sens correct."
+        ),
+        "listening_title": "Exercice d’écoute",
+        "listening_instructions": (
+            "Écoutez attentivement, puis choisissez le sens de la phrase. "
+            "Une mauvaise réponse coûte un cœur."
+        ),
+        "listening_round": "Question {current} sur {total}",
+        "listen_normal": "Normal",
+        "listen_slow": "Lent",
+        "preparing_audio": "Préparation de l’audio...",
+        "what_did_you_hear": "Qu’avez-vous entendu ?",
+        "choose_meaning": "Choisissez le sens correct",
+        "listening_correct": (
+            "Correct ! Vous avez gagné {reward} pièces."
+        ),
+        "listening_incorrect": (
+            "Pas tout à fait. Consultez la phrase et le sens corrects."
+        ),
+        "phrase_you_heard": "Phrase entendue",
+        "next_audio": "Audio suivant",
+        "listening_score": "Score d’écoute",
+        "listening_questions_correct": (
+            "{correct} sur {total} correctes"
+        ),
+    },
+    "es": {
+        "listening": "Comprensión auditiva",
+        "listening_description": (
+            "Escucha frases útiles y elige el significado correcto."
+        ),
+        "listening_title": "Práctica de comprensión auditiva",
+        "listening_instructions": (
+            "Escucha con atención y elige el significado de la frase. "
+            "Una respuesta incorrecta cuesta un corazón."
+        ),
+        "listening_round": "Pregunta {current} de {total}",
+        "listen_normal": "Normal",
+        "listen_slow": "Lento",
+        "preparing_audio": "Preparando el audio...",
+        "what_did_you_hear": "¿Qué escuchaste?",
+        "choose_meaning": "Elige el significado correcto",
+        "listening_correct": (
+            "¡Correcto! Ganaste {reward} monedas."
+        ),
+        "listening_incorrect": (
+            "No es correcto. Revisa la frase y el significado correctos."
+        ),
+        "phrase_you_heard": "Frase que escuchaste",
+        "next_audio": "Siguiente audio",
+        "listening_score": "Puntuación de escucha",
+        "listening_questions_correct": (
+            "{correct} de {total} correctas"
+        ),
+    },
+    "ko": {
+        "listening": "듣기",
+        "listening_description": (
+            "유용한 문장을 듣고 올바른 의미를 선택하세요."
+        ),
+        "listening_title": "듣기 연습",
+        "listening_instructions": (
+            "잘 듣고 문장의 올바른 의미를 선택하세요. "
+            "오답은 하트 하나를 차감합니다."
+        ),
+        "listening_round": "문제 {current} / {total}",
+        "listen_normal": "보통",
+        "listen_slow": "느리게",
+        "preparing_audio": "오디오 준비 중...",
+        "what_did_you_hear": "무엇을 들었나요?",
+        "choose_meaning": "올바른 의미를 선택하세요",
+        "listening_correct": (
+            "정답입니다! 코인 {reward}개를 획득했습니다."
+        ),
+        "listening_incorrect": (
+            "아쉬워요. 아래에서 올바른 문장과 의미를 확인하세요."
+        ),
+        "phrase_you_heard": "들은 문장",
+        "next_audio": "다음 오디오",
+        "listening_score": "듣기 점수",
+        "listening_questions_correct": (
+            "{total}문제 중 {correct}문제 정답"
+        ),
+    },
+    "ja": {
+        "listening": "リスニング",
+        "listening_description": (
+            "役立つフレーズを聞いて、正しい意味を選びましょう。"
+        ),
+        "listening_title": "リスニング練習",
+        "listening_instructions": (
+            "よく聞いて、文の正しい意味を選んでください。"
+            "間違えるとハートが1つ減ります。"
+        ),
+        "listening_round": "問題 {current} / {total}",
+        "listen_normal": "通常",
+        "listen_slow": "ゆっくり",
+        "preparing_audio": "音声を準備しています...",
+        "what_did_you_hear": "何と聞こえましたか？",
+        "choose_meaning": "正しい意味を選んでください",
+        "listening_correct": (
+            "正解！{reward}コインを獲得しました。"
+        ),
+        "listening_incorrect": (
+            "惜しいです。下の正しい文と意味を確認してください。"
+        ),
+        "phrase_you_heard": "聞こえた文",
+        "next_audio": "次の音声",
+        "listening_score": "リスニングスコア",
+        "listening_questions_correct": (
+            "{total}問中{correct}問正解"
+        ),
+    },
+}
+
+for _language_code, _strings in LISTENING_TRANSLATIONS.items():
+    TRANSLATIONS.setdefault(_language_code, {}).update(_strings)
