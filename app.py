@@ -4,6 +4,7 @@ from components.account import render_account
 from components.home import render_home
 from components.lessons import render_lessons
 from components.listening import render_listening
+from components.speaking import render_speaking
 from components.progress import render_progress
 from components.pronunciation import render_pronunciation
 from components.sentence_builder import (
@@ -124,6 +125,7 @@ VIEWS = {
     "Home": render_home,
     "Account": render_account,
     "Listening": render_listening,
+    "Speaking": render_speaking,
     "Sentence Builder": render_sentence_builder,
     "Pronunciation": render_pronunciation,
     "Lessons": render_lessons,

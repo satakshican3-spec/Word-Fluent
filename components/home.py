@@ -262,6 +262,12 @@ def render_home():
             SKILL_COLORS["Listening"],
         ),
         (
+            "🗣️",
+            "Speaking",
+            t("speaking_description"),
+            SKILL_COLORS["Speaking"],
+        ),
+        (
             "🏆",
             "Progress",
             t("progress_description"),
@@ -269,14 +275,14 @@ def render_home():
         ),
     ]
 
-    activity_columns = st.columns(5)
+    activity_columns = st.columns(3)
     level_not_selected = progress["starting_level"] is None
 
     for index, activity in enumerate(activities):
         icon, title, description, color = activity
         display_title = t(title.lower().replace(" ", "_"))
 
-        with activity_columns[index]:
+        with activity_columns[index % 3]:
             activity_card(
                 icon,
                 display_title,
