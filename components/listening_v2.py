@@ -597,7 +597,7 @@ def _render_complete(game):
                 game["mode"],
             )
             st.rerun()
-with mode_column:
+    with mode_column:
         if st.button(
             t("listening_choose_another_mode"),
             use_container_width=True,
@@ -629,7 +629,8 @@ def render_listening():
     if game["complete"]:
         _render_complete(game)
         return
-        question = game["questions"][
+
+    question = game["questions"][
         game["round_index"]
     ]
     progress = (
@@ -659,7 +660,8 @@ def render_listening():
         st.title(
             f'🎧 {t("listening_title")}'
         )
-        language_column, level_column, heart_column = (
+
+    language_column, level_column, heart_column = (
         st.columns(3)
     )
 

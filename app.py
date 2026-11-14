@@ -3,7 +3,7 @@ import streamlit as st
 from components.account import render_account
 from components.home import render_home
 from components.lessons import render_lessons
-from components.listening import render_listening
+from components.listening_v2 import render_listening
 from components.speaking import render_speaking
 from components.progress import render_progress
 from components.pronunciation import render_pronunciation
@@ -60,39 +60,6 @@ def render_interface_language_setup():
     st.stop()
 
 
-def render_interface_language_setup():
-    if st.session_state.get("interface_language_selected"):
-        return
-
-    selected_language = st.session_state.get(
-        "interface_language_choice",
-        "en",
-    )
-
-    st.title(
-        f"🌍 {t('choose_interface_title', language=selected_language)}"
-    )
-    st.write(
-        t("choose_interface_help", language=selected_language)
-    )
-
-    selected_language = st.selectbox(
-        t("interface_language", language=selected_language),
-        options=language_codes(),
-        format_func=language_label,
-        key="interface_language_choice",
-    )
-
-    if st.button(
-        t("continue", language=selected_language),
-        type="primary",
-        use_container_width=True,
-    ):
-        set_interface_language(selected_language)
-        st.session_state.interface_language_selected = True
-        st.rerun()
-
-    st.stop()
 
 render_interface_language_setup()
 
