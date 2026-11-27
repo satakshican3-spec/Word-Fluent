@@ -6,6 +6,7 @@ from core.config import (
     MAX_HEARTS,
 )
 from core.state import create_language_progress
+from locales import normalize_language
 from services.supabase_service import (
     fetch_language_progress,
     fetch_profile,
@@ -18,7 +19,12 @@ def save_online_state(user_id):
     profile_data = {
         "id": user_id,
         "display_name": st.session_state.display_name,
-        "ui_language": st.session_state.ui_language,
+        "ui_language": normalize_language(
+            st.session_state.get(
+                "interface_language",
+                st.session_state.get("ui_language"),
+            )
+        ),
         "dark_mode": st.session_state.dark_mode,
         "difficulty": st.session_state.difficulty,
         "session_length": st.session_state.session_length,
@@ -64,10 +70,23 @@ def load_online_state(user_id):
     )
 
     if not online_progress:
-        if profile and profile.get("display_name"):
-            st.session_state.display_name = profile[
-                "display_name"
-            ]
+        if profile:
+            for field in [
+                "display_name",
+                "ui_language",
+                "dark_mode",
+                "difficulty",
+                "session_length",
+                "coins",
+                "hearts",
+            ]:
+                if profile.get(field) is not None:
+                    st.session_state[field] = profile[field]
+
+            st.session_state.interface_language = normalize_language(
+                st.session_state.get("ui_language")
+            )
+            st.session_state.interface_language_selected = True
 
         save_online_state(user_id)
         return "converted"
@@ -86,6 +105,11 @@ def load_online_state(user_id):
         for field in profile_fields:
             if profile.get(field) is not None:
                 st.session_state[field] = profile[field]
+
+        st.session_state.interface_language = normalize_language(
+            st.session_state.get("ui_language")
+        )
+        st.session_state.interface_language_selected = True
 
     restored_progress = {
         language: create_language_progress()
@@ -130,6 +154,8 @@ def reset_to_guest_state():
     st.session_state.user_email = None
     st.session_state.display_name = "Guest Learner"
     st.session_state.ui_language = "English"
+    st.session_state.interface_language = "en"
+    st.session_state.interface_language_selected = True
     st.session_state.active_language = (
         DEFAULT_LANGUAGE
     )

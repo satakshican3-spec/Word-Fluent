@@ -145,7 +145,7 @@ def _render_audio(game, phrase, language):
     with normal_column:
         if st.button(
             f'🔊 {t("listen_normal")}',
-            use_container_width=True,
+            width="stretch",
         ):
             _play_audio(
                 game,
@@ -157,7 +157,7 @@ def _render_audio(game, phrase, language):
     with slow_column:
         if st.button(
             f'🐢 {t("listen_slow")}',
-            use_container_width=True,
+            width="stretch",
         ):
             _play_audio(
                 game,
@@ -271,7 +271,7 @@ def _render_feedback(game, exercise):
     if st.button(
         t("next_audio"),
         type="primary",
-        use_container_width=True,
+        width="stretch",
     ):
         _next_question(game)
 
@@ -325,7 +325,7 @@ def _render_complete(game, language):
         if st.button(
             t("play_again"),
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             start_listening_session(language)
             st.rerun()
@@ -333,7 +333,7 @@ def _render_complete(game, language):
     with home_column:
         if st.button(
             t("finish_session"),
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state.current_view = "Home"
             st.rerun()
@@ -440,7 +440,7 @@ def render_listening():
             or game["answered"]
             or no_hearts
         ),
-        use_container_width=True,
+        width="stretch",
     ):
         _check_answer(
             game,

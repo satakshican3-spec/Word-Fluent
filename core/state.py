@@ -30,6 +30,8 @@ def create_language_progress():
 def initialize_session_state():
     persistent_keys = [
         "active_language",
+        "interface_language",
+        "interface_language_selected",
         "ui_language",
         "dark_mode",
         "difficulty",
@@ -47,6 +49,8 @@ def initialize_session_state():
         "user_email": None,
         "display_name": "Guest Learner",
         "ui_language": "English",
+        "interface_language": "en",
+        "interface_language_selected": False,
         "active_language": DEFAULT_LANGUAGE,
         "dark_mode": False,
         "coins": 100,

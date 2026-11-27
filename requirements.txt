@@ -1,4 +1,4 @@
-streamlit
+streamlit>=1.40,<2.0
 SpeechRecognition==3.17.0
 supabase==2.31.0
 edge-tts==7.2.8
