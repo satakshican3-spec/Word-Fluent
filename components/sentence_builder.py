@@ -606,7 +606,7 @@ def _render_setup(
         if st.button(
             f"📚 {t('open_learning_path')} →",
             key=f"open_learning_path_{language}",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state.current_view = "Lessons"
             st.rerun()
@@ -631,7 +631,7 @@ def _render_setup(
     if st.button(
         f"{t('start_session')} →",
         type="primary",
-        use_container_width=True,
+        width="stretch",
     ):
         start_session(
             language,
@@ -1233,7 +1233,7 @@ def _render_finish(
     if st.button(
         t("play_again"),
         type="primary",
-        use_container_width=True,
+        width="stretch",
     ):
         st.session_state.pop(
             "sentence_session",
@@ -1322,7 +1322,7 @@ def _render_round(
         and st.button(
             t("check_answer"),
             type="primary",
-            use_container_width=True,
+            width="stretch",
             disabled=(
                 not ready
                 or no_hearts

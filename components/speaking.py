@@ -335,7 +335,7 @@ def _render_audio_controls(game, text, language, kind):
                 f'{kind}_normal_{game["id"]}_'
                 f'{game["round_index"]}'
             ),
-            use_container_width=True,
+            width="stretch",
         ):
             _play_audio(game, text, language, False, kind)
 
@@ -346,7 +346,7 @@ def _render_audio_controls(game, text, language, kind):
                 f'{kind}_slow_{game["id"]}_'
                 f'{game["round_index"]}'
             ),
-            use_container_width=True,
+            width="stretch",
         ):
             _play_audio(game, text, language, True, kind)
 
@@ -624,7 +624,7 @@ def _render_result(game, scenario, language):
         if st.button(
             t("speaking_next_scene"),
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             _next_round(game)
     else:
@@ -634,14 +634,14 @@ def _render_result(game, scenario, language):
             if st.button(
                 t("speaking_record_again"),
                 type="primary",
-                use_container_width=True,
+                width="stretch",
             ):
                 _retry_round(game)
 
         with next_column:
             if st.button(
                 t("speaking_skip_scene"),
-                use_container_width=True,
+                width="stretch",
             ):
                 _next_round(game)
 
@@ -676,7 +676,7 @@ def _render_complete(game, language):
         if st.button(
             t("play_again"),
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             start_speaking_session(language)
             st.rerun()
@@ -684,7 +684,7 @@ def _render_complete(game, language):
     with home_column:
         if st.button(
             t("finish_session"),
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state.current_view = "Home"
             st.rerun()
@@ -852,7 +852,7 @@ def render_speaking():
             or game["result"] is not None
             or no_hearts
         ),
-        use_container_width=True,
+        width="stretch",
     ):
         _check_reply(
             game,

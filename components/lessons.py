@@ -1551,7 +1551,7 @@ def _render_path(course):
                             else "secondary"
                         ),
                         disabled=not unlocked,
-                        use_container_width=True,
+                        width="stretch",
                     ):
                         _start_lesson(
                             course,
@@ -1717,7 +1717,7 @@ def _render_vocabulary(course, lesson, run):
                 if st.button(
                     f"🔊 {_lt('normal_audio')}",
                     key=f'listen_{lesson["id"]}_{index}',
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     audio_request = False
 
@@ -1725,7 +1725,7 @@ def _render_vocabulary(course, lesson, run):
                 if st.button(
                     f"🐢 {_lt('slow_audio')}",
                     key=f'slow_listen_{lesson["id"]}_{index}',
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     audio_request = True
 
@@ -1745,7 +1745,7 @@ def _render_vocabulary(course, lesson, run):
         f"{_lt('continue_pattern')} →",
         type="primary",
         key=f'vocabulary_done_{lesson["id"]}',
-        use_container_width=True,
+        width="stretch",
     ):
         run["stage"] = "grammar"
         st.rerun()
@@ -1782,7 +1782,7 @@ def _render_grammar(
         f"{_lt('start_practice')} →",
         type="primary",
         key=f'grammar_done_{lesson["id"]}',
-        use_container_width=True,
+        width="stretch",
     ):
         run["stage"] = "exercise"
         st.rerun()
@@ -2072,7 +2072,7 @@ def _render_complete(
             _lt("retry"),
             type="primary",
             key=f'retry_{lesson["id"]}',
-            use_container_width=True,
+            width="stretch",
         ):
             _start_lesson(
                 course,
@@ -2084,7 +2084,7 @@ def _render_complete(
         if st.button(
             _lt("return_path"),
             key=f'failed_path_{lesson["id"]}',
-            use_container_width=True,
+            width="stretch",
         ):
             _return_to_path()
 

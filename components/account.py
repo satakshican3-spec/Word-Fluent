@@ -31,6 +31,9 @@ def friendly_error(error):
         "password should be": (
             "Please choose a stronger password."
         ),
+        "supabase connection details": (
+            "Account sign-in is not configured yet. You can continue as a guest."
+        ),
     }
 
     for error_text, friendly_message in (

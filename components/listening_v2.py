@@ -188,7 +188,7 @@ def _render_audio(
         if st.button(
             f'🔊 {t("listen_normal")}',
             disabled=limit_reached,
-            use_container_width=True,
+            width="stretch",
         ):
             _play_audio(
                 game,
@@ -202,7 +202,7 @@ def _render_audio(
         if st.button(
             f'🐢 {t("listen_slow")}',
             disabled=limit_reached,
-            use_container_width=True,
+            width="stretch",
         ):
             _play_audio(
                 game,
@@ -414,7 +414,7 @@ def _render_setup(language):
     if st.button(
         t("listening_start"),
         type="primary",
-        use_container_width=True,
+        width="stretch",
     ):
         start_listening_session(
             language,
@@ -559,7 +559,7 @@ def _render_feedback(
     if st.button(
         t("next_audio"),
         type="primary",
-        use_container_width=True,
+        width="stretch",
     ):
         _next_question(game)
 
@@ -590,7 +590,7 @@ def _render_complete(game):
         if st.button(
             t("listening_play_again"),
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             start_listening_session(
                 game["language"],
@@ -600,7 +600,7 @@ def _render_complete(game):
     with mode_column:
         if st.button(
             t("listening_choose_another_mode"),
-            use_container_width=True,
+            width="stretch",
         ):
             _clear_listening_session()
             st.rerun()
@@ -735,7 +735,7 @@ def render_listening():
             not str(answer or "").strip()
             or no_hearts
         ),
-        use_container_width=True,
+        width="stretch",
     ):
         _check_answer(
             game,

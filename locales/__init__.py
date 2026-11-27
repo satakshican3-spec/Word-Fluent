@@ -128,7 +128,10 @@ def get_interface_language():
     return normalize_language(
         st.session_state.get(
             "interface_language",
-            DEFAULT_LANGUAGE,
+            st.session_state.get(
+                "ui_language",
+                DEFAULT_LANGUAGE,
+            ),
         )
     )
 
@@ -136,6 +139,7 @@ def get_interface_language():
 def set_interface_language(value):
     code = normalize_language(value)
     st.session_state["interface_language"] = code
+    st.session_state["ui_language"] = code
     return code
 
 
@@ -506,7 +510,7 @@ HOME_TRANSLATIONS_SESSION = {
 for language_code, home_strings in HOME_TRANSLATIONS_SESSION.items():
     TRANSLATIONS.setdefault(language_code, {}).update(home_strings)
 
-    HOME_TRANSLATIONS_ACTIVITIES = {
+HOME_TRANSLATIONS_ACTIVITIES = {
     "en": {
         "choose_activity": "Choose an activity",
         "sentence_builder": "Sentence Builder",
@@ -623,6 +627,177 @@ for language_code, home_strings in HOME_TRANSLATIONS_SESSION.items():
 
 for language_code, activity_strings in HOME_TRANSLATIONS_ACTIVITIES.items():
     TRANSLATIONS.setdefault(language_code, {}).update(activity_strings)
+
+
+HOME_REDESIGN_TRANSLATIONS = {
+    "en": {
+        "guest": "Guest",
+        "hero_learn_language": "Learn a language",
+        "hero_your_way": "your way",
+        "hero_description": (
+            "Practise through games, listening, speaking, and pronunciation "
+            "in short sessions built around your level."
+        ),
+        "hero_games": "Games",
+        "start_learning": "Start learning",
+        "choose_language": "Choose a language",
+        "choose_language_description": (
+            "Pick what you want to learn. Progress is saved separately for each language."
+        ),
+        "selected": "Selected",
+        "choose": "Choose",
+        "levels_ready": "{count} levels are ready for {language}.",
+        "choose_activity_description": "Choose how you want to practise today.",
+        "activity_read_write": "Read & Write",
+        "activity_listen": "Listen",
+        "activity_speak": "Speak",
+        "activity_play_practise": "Play & Practise",
+        "more_practice": "More practice",
+    },
+    "bn": {
+        "guest": "অতিথি",
+        "hero_learn_language": "একটি ভাষা শিখুন",
+        "hero_your_way": "আপনার মতো করে",
+        "hero_description": (
+            "আপনার স্তর অনুযায়ী ছোট সেশনে খেলা, শোনা, বলা ও উচ্চারণের মাধ্যমে অনুশীলন করুন।"
+        ),
+        "hero_games": "খেলা",
+        "start_learning": "শেখা শুরু করুন",
+        "choose_language": "একটি ভাষা বেছে নিন",
+        "choose_language_description": (
+            "আপনি যে ভাষা শিখতে চান তা বেছে নিন। প্রতিটি ভাষার অগ্রগতি আলাদাভাবে সংরক্ষিত থাকে।"
+        ),
+        "selected": "নির্বাচিত",
+        "choose": "বেছে নিন",
+        "levels_ready": "{language}-এর জন্য {count}টি স্তর প্রস্তুত।",
+        "choose_activity_description": "আজ কীভাবে অনুশীলন করতে চান তা বেছে নিন।",
+        "activity_read_write": "পড়া ও লেখা",
+        "activity_listen": "শুনুন",
+        "activity_speak": "বলুন",
+        "activity_play_practise": "খেলুন ও অনুশীলন করুন",
+        "more_practice": "আরও অনুশীলন",
+    },
+    "hi": {
+        "guest": "अतिथि",
+        "hero_learn_language": "भाषा सीखें",
+        "hero_your_way": "अपने तरीके से",
+        "hero_description": (
+            "अपने स्तर के अनुसार छोटे सत्रों में खेल, सुनने, बोलने और उच्चारण से अभ्यास करें।"
+        ),
+        "hero_games": "खेल",
+        "start_learning": "सीखना शुरू करें",
+        "choose_language": "एक भाषा चुनें",
+        "choose_language_description": (
+            "जो भाषा सीखनी है उसे चुनें। हर भाषा की प्रगति अलग सहेजी जाती है।"
+        ),
+        "selected": "चुना गया",
+        "choose": "चुनें",
+        "levels_ready": "{language} के लिए {count} स्तर तैयार हैं।",
+        "choose_activity_description": "आज आप किस तरह अभ्यास करना चाहते हैं?",
+        "activity_read_write": "पढ़ें और लिखें",
+        "activity_listen": "सुनें",
+        "activity_speak": "बोलें",
+        "activity_play_practise": "खेलें और अभ्यास करें",
+        "more_practice": "और अभ्यास",
+    },
+    "fr": {
+        "guest": "Invité",
+        "hero_learn_language": "Apprenez une langue",
+        "hero_your_way": "à votre façon",
+        "hero_description": (
+            "Entraînez-vous avec des jeux, de l’écoute, de l’oral et de la prononciation "
+            "dans de courtes sessions adaptées à votre niveau."
+        ),
+        "hero_games": "Jeux",
+        "start_learning": "Commencer",
+        "choose_language": "Choisissez une langue",
+        "choose_language_description": (
+            "Choisissez la langue à apprendre. La progression est enregistrée séparément."
+        ),
+        "selected": "Sélectionnée",
+        "choose": "Choisir",
+        "levels_ready": "{count} niveaux sont prêts pour {language}.",
+        "choose_activity_description": "Choisissez votre façon de vous entraîner aujourd’hui.",
+        "activity_read_write": "Lire et écrire",
+        "activity_listen": "Écouter",
+        "activity_speak": "Parler",
+        "activity_play_practise": "Jouer et pratiquer",
+        "more_practice": "Plus d’exercices",
+    },
+    "es": {
+        "guest": "Invitado",
+        "hero_learn_language": "Aprende un idioma",
+        "hero_your_way": "a tu manera",
+        "hero_description": (
+            "Practica con juegos, comprensión auditiva, conversación y pronunciación "
+            "en sesiones cortas adaptadas a tu nivel."
+        ),
+        "hero_games": "Juegos",
+        "start_learning": "Empezar a aprender",
+        "choose_language": "Elige un idioma",
+        "choose_language_description": (
+            "Elige lo que quieres aprender. El progreso se guarda por separado para cada idioma."
+        ),
+        "selected": "Seleccionado",
+        "choose": "Elegir",
+        "levels_ready": "Hay {count} niveles listos para {language}.",
+        "choose_activity_description": "Elige cómo quieres practicar hoy.",
+        "activity_read_write": "Leer y escribir",
+        "activity_listen": "Escuchar",
+        "activity_speak": "Hablar",
+        "activity_play_practise": "Jugar y practicar",
+        "more_practice": "Más práctica",
+    },
+    "ko": {
+        "guest": "게스트",
+        "hero_learn_language": "언어를 배우세요",
+        "hero_your_way": "나만의 방식으로",
+        "hero_description": (
+            "내 수준에 맞는 짧은 세션으로 게임, 듣기, 말하기, 발음을 연습하세요."
+        ),
+        "hero_games": "게임",
+        "start_learning": "학습 시작",
+        "choose_language": "언어 선택",
+        "choose_language_description": (
+            "배우고 싶은 언어를 선택하세요. 진도는 언어별로 따로 저장됩니다."
+        ),
+        "selected": "선택됨",
+        "choose": "선택",
+        "levels_ready": "{language}에서 {count}개 레벨을 이용할 수 있습니다.",
+        "choose_activity_description": "오늘 연습할 방법을 선택하세요.",
+        "activity_read_write": "읽기와 쓰기",
+        "activity_listen": "듣기",
+        "activity_speak": "말하기",
+        "activity_play_practise": "게임과 연습",
+        "more_practice": "추가 연습",
+    },
+    "ja": {
+        "guest": "ゲスト",
+        "hero_learn_language": "言語を学ぼう",
+        "hero_your_way": "自分らしい方法で",
+        "hero_description": (
+            "自分のレベルに合った短いセッションで、ゲーム・リスニング・会話・発音を練習しましょう。"
+        ),
+        "hero_games": "ゲーム",
+        "start_learning": "学習を始める",
+        "choose_language": "言語を選ぶ",
+        "choose_language_description": (
+            "学びたい言語を選んでください。進捗は言語ごとに保存されます。"
+        ),
+        "selected": "選択中",
+        "choose": "選ぶ",
+        "levels_ready": "{language}では{count}レベルを利用できます。",
+        "choose_activity_description": "今日の練習方法を選んでください。",
+        "activity_read_write": "読む・書く",
+        "activity_listen": "聞く",
+        "activity_speak": "話す",
+        "activity_play_practise": "遊ぶ・練習する",
+        "more_practice": "さらに練習",
+    },
+}
+
+for language_code, redesign_strings in HOME_REDESIGN_TRANSLATIONS.items():
+    TRANSLATIONS.setdefault(language_code, {}).update(redesign_strings)
 
 TRANSLATIONS.setdefault("en", {}).update(
     {
